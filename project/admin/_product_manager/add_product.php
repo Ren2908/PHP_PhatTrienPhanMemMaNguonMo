@@ -52,62 +52,60 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<div class="container mt-4">
-    <h3>Thêm sản phẩm mới</h3>
-    <form action="" method="post" enctype="multipart/form-data" class="mt-3">
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label>Mã sản phẩm:</label>
-                <input type="text" name="Ma_san_pham" class="form-control" value="<?php echo $new_sp; ?>" readonly>
-            </div>
-            <div class="col-md-6">
-                <label>Tên sản phẩm:</label>
-                <input type="text" name="Ten_san_pham" class="form-control" required>
-            </div>
+<h3>Thêm sản phẩm mới</h3>
+<form action="" method="post" enctype="multipart/form-data" class="mt-3">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label>Mã sản phẩm:</label>
+            <input type="text" name="Ma_san_pham" class="form-control" value="<?php echo $new_sp; ?>" readonly>
         </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label>Loại sản phẩm:</label>
-                <select name="Ma_loai" class="form-control" required>
-                    <option value="">-- Chọn loại --</option>
-                    <?php while ($row = mysqli_fetch_assoc($result_loai)): ?>
-                        <option value="<?php echo $row['Ma_loai']; ?>"><?php echo $row['Ten_loai']; ?></option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label>Nhà cung cấp:</label>
-                <select name="Ma_nha_cung_cap" class="form-control" required>
-                    <option value="">-- Chọn nhà cung cấp --</option>
-                    <?php while ($row = mysqli_fetch_assoc($result_ncc)): ?>
-                        <option value="<?php echo $row['Ma_nha_cung_cap']; ?>"><?php echo $row['Ten_nha_cung_cap']; ?></option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
+        <div class="col-md-6">
+            <label>Tên sản phẩm:</label>
+            <input type="text" name="Ten_san_pham" class="form-control" required>
         </div>
+    </div>
 
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label>Số lượng:</label>
-                <input type="number" name="So_luong" class="form-control" value="0">
-            </div>
-            <div class="col-md-4">
-                <label>Đơn giá:</label>
-                <input type="number" step="0.01" name="Don_gia" class="form-control" required>
-            </div>
-            <div class="col-md-4">
-                <label>Hình ảnh:</label>
-                <input type="file" name="Hinh_anh" class="form-control" accept="image/*">
-            </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label>Loại sản phẩm:</label>
+            <select name="Ma_loai" class="form-control" required>
+                <option value="">-- Chọn loại --</option>
+                <?php while ($row = mysqli_fetch_assoc($result_loai)): ?>
+                    <option value="<?php echo $row['Ma_loai']; ?>"><?php echo $row['Ten_loai']; ?></option>
+                <?php endwhile; ?>
+            </select>
         </div>
-
-        <div class="mb-3">
-            <label>Mô tả:</label>
-            <textarea name="Mo_ta" class="form-control" rows="3"></textarea>
+        <div class="col-md-6">
+            <label>Nhà cung cấp:</label>
+            <select name="Ma_nha_cung_cap" class="form-control" required>
+                <option value="">-- Chọn nhà cung cấp --</option>
+                <?php while ($row = mysqli_fetch_assoc($result_ncc)): ?>
+                    <option value="<?php echo $row['Ma_nha_cung_cap']; ?>"><?php echo $row['Ten_nha_cung_cap']; ?></option>
+                <?php endwhile; ?>
+            </select>
         </div>
+    </div>
 
-        <button type="submit" name="submit" class="btn btn-primary">Thêm sản phẩm</button>
-        <a href="index_admin.php?page=list_product">Về trang sản phẩm</a>
-    </form>
-</div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label>Số lượng:</label>
+            <input type="number" name="So_luong" class="form-control" value="0">
+        </div>
+        <div class="col-md-4">
+            <label>Đơn giá:</label>
+            <input type="number" step="0.01" name="Don_gia" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+            <label>Hình ảnh:</label>
+            <input type="file" name="Hinh_anh" class="form-control" accept="image/*">
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label>Mô tả:</label>
+        <textarea name="Mo_ta" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button type="submit" name="submit" class="btn btn-primary">Thêm sản phẩm</button>
+    <a href="index_admin.php?page=list_product">Về trang sản phẩm</a>
+</form>
