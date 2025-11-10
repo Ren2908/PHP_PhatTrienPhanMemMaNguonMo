@@ -6,6 +6,16 @@ if (isset($_GET['Ma_san_pham'])) {
     // Xóa chi tiết hóa đơn liên quan
     $delete_details = "DELETE FROM chi_tiet_hoa_don WHERE Ma_san_pham='$id'";
     mysqli_query($conn, $delete_details);
+    // Lấy tên ảnh của sản phẩm
+    $query_image = "SELECT Hinh_anh FROM san_pham WHERE Ma_san_pham = '$id'";
+    $result_query_image = mysqli_query($conn, $query_image);
+    if ($row_image = mysqli_fetch_assoc($result_query_image)) {
+        $file_name = $row_image['Hinh_anh'];
+        $path = __DIR__ . "/../_images/" . $file_name;
+        if (file_exists($path)) {
+            unlink($path); // xóa file
+        }
+    }
 
     // Xóa sản phẩm
     $delete_product = "DELETE FROM san_pham WHERE Ma_san_pham='$id'";
@@ -18,7 +28,7 @@ if (isset($_GET['Ma_san_pham'])) {
               setTimeout(function() {
                   document.getElementById("alert-box").remove();
                   window.location.href = "index_admin.php?page=list_product";
-              }, 1000);
+              }, 2000);
           </script>';
     } else {
         echo "Lỗi xóa sản phẩm: " . mysqli_error($conn);
