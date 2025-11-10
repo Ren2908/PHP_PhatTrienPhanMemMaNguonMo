@@ -48,7 +48,17 @@ $current_page = isset($_GET['page_num']) ? (int)$_GET['page_num'] : 1;
 $start = ($current_page - 1) * $rows_per_page;
 
 // Lấy dữ liệu để hiển thị
-$query_to_show = "SELECT * FROM san_pham $where_search LIMIT $start, $rows_per_page";
+$query_to_show = "
+SELECT 
+    sp.*,
+    lsp.Ten_loai,
+    ncc.Ten_nha_cung_cap
+FROM san_pham sp
+LEFT JOIN loai_san_pham lsp ON sp.Ma_loai = lsp.Ma_loai
+LEFT JOIN nha_cung_cap ncc ON sp.Ma_nha_cung_cap = ncc.Ma_nha_cung_cap
+$where_search
+LIMIT $start, $rows_per_page
+";
 $result_to_show = mysqli_query($conn, $query_to_show);
 
 // Lấy tổng số dòng để tính tổng số trang
@@ -56,19 +66,57 @@ $query_count = "SELECT * FROM san_pham $where_search";
 $result_count = mysqli_query($conn, $query_count);
 $total_rows = mysqli_num_rows($result_count);
 $total_pages = ceil($total_rows / $rows_per_page);
+
+// phân loại sản phẩm theo loại và nhà cung cấp
+// Lấy danh sách loại sản phẩm
+$query_loai = "SELECT Ma_loai, Ten_loai FROM loai_san_pham";
+$result_loai = mysqli_query($conn, $query_loai);
+
+// Lấy danh sách nhà cung cấp
+$query_ncc = "SELECT Ma_nha_cung_cap, Ten_nha_cung_cap FROM nha_cung_cap";
+$result_ncc = mysqli_query($conn, $query_ncc);
+$filter_ncc = isset($_GET['filter_ncc']) ? $_GET['filter_ncc'] : '';
+
 ?>
 
 <div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center flex-wrap">
         <h6 class="m-0 font-weight-bold text-primary">Danh sách sản phẩm</h6>
-
-        <form action="index_admin.php" method="get" class="form-inline">
+        <form action="index_admin.php" method="get">
             <input type="hidden" name="page" value="list_product">
-            <input type="text" name="search" class="form-control" placeholder="Tìm tên sản phẩm..." value="<?php echo trim($search_result); ?>">
-            <button type="submit" class="btn btn-primary ml-2">Tìm</button>
+
+            <!-- Input tìm kiếm -->
+            <div class="input-group mb-3" style="max-width: 400px; margin: 0 auto;">
+                <input type="text" name="search" class="form-control" placeholder="Tìm tên sản phẩm..." value="<?php echo trim($search_result); ?>">
+                <button class="btn btn-primary" type="submit">Tìm</button>
+            </div>
+
+            <!-- Dropdown lọc -->
+            <div class="d-flex justify-content-center" style="gap: 10px; max-width: 500px; margin: 0 auto;">
+                <!-- <select class="form-select" name="filter_ncc" style="min-width: 200px;">
+                    <option value="">-- Chọn nhà cung cấp --</option>
+                    <?php while ($row = mysqli_fetch_assoc($result_ncc)) {
+                        $selected = ($row['Ma_nha_cung_cap'] == $filter_ncc) ? 'selected' : '';
+                    ?>
+                        <option value="<?php echo $row['Ma_nha_cung_cap']; ?>" <?php echo $selected; ?>>
+                            <?php echo $row['Ten_nha_cung_cap']; ?>
+                        </option>
+                    <?php } ?>
+                </select> -->
+
+                <!-- <select class="form-select" name="filter_loai" style="min-width: 200px;">
+                    <option selected>Lọc theo loại sản phẩm</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select> -->
+            </div>
         </form>
-        <a href="index_admin.php?page=add_product">Thêm sản phẩm</a>
+
+
+        <a href="index_admin.php?page=add_product" class="btn btn-success">Thêm sản phẩm</a>
     </div>
+
 
     <div class="card-body">
         <div class="table-responsive">
@@ -96,11 +144,13 @@ $total_pages = ceil($total_rows / $rows_per_page);
                             <td><?php echo $i; ?></td>
                             <td><?php echo $row['Ma_san_pham']; ?></td>
                             <td><?php echo $row['Ten_san_pham']; ?></td>
-                            <td><?php echo $row['Ma_loai']; ?></td>
+                            <td><?php echo $row['Ma_loai'] . '(' . $row['Ten_loai'] . ')'; ?></td>
                             <td><?php echo $row['So_luong']; ?></td>
                             <td><?php echo number_format($row['Don_gia'], 0); ?> VNĐ</td>
-                            <td><?php echo $row['Ma_nha_cung_cap']; ?></td>
-                            <td><?php echo $row['Mo_ta']; ?></td>
+                            <td><?php echo $row['Ma_nha_cung_cap'] . '(' . $row['Ten_nha_cung_cap'] . ')'; ?></td>
+                            <td class="text-start" style="word-break: break-word; max-width: 200px;">
+                                <?php echo $row['Mo_ta']; ?>
+                            </td>
                             <td style="text-align:center;">
                                 <?php
                                 $imagePath = "_images/" . $row['Hinh_anh'];
