@@ -37,7 +37,7 @@ INSERT INTO loai_san_pham VALUES
 ('L004', 'Tivi');
 
 -- ===============================
--- Bảng sản phẩm (đã thêm cột Hinh_anh)
+-- Bảng sản phẩm (có cascade delete)
 -- ===============================
 CREATE TABLE san_pham (
     Ma_san_pham VARCHAR(10) PRIMARY KEY,
@@ -48,8 +48,10 @@ CREATE TABLE san_pham (
     Ma_nha_cung_cap VARCHAR(10),
     Mo_ta TEXT,
     Hinh_anh VARCHAR(255),
-    FOREIGN KEY (Ma_loai) REFERENCES loai_san_pham(Ma_loai),
+    FOREIGN KEY (Ma_loai) REFERENCES loai_san_pham(Ma_loai)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (Ma_nha_cung_cap) REFERENCES nha_cung_cap(Ma_nha_cung_cap)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO san_pham VALUES
@@ -93,7 +95,7 @@ INSERT INTO nhan_vien VALUES
 ('NV002','Hoàng Thị E',0,'TP HCM','0988112233','Nhân viên bán hàng');
 
 -- ===============================
--- Bảng hóa đơn
+-- Bảng hóa đơn (cascade khi xóa KH hoặc NV)
 -- ===============================
 CREATE TABLE hoa_don (
     Ma_hoa_don VARCHAR(10) PRIMARY KEY,
@@ -101,8 +103,10 @@ CREATE TABLE hoa_don (
     Ma_nhan_vien VARCHAR(10),
     Ngay_lap DATE NOT NULL,
     Tong_tien DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (Ma_khach_hang) REFERENCES khach_hang(Ma_khach_hang),
+    FOREIGN KEY (Ma_khach_hang) REFERENCES khach_hang(Ma_khach_hang)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (Ma_nhan_vien) REFERENCES nhan_vien(Ma_nhan_vien)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO hoa_don VALUES
@@ -110,7 +114,7 @@ INSERT INTO hoa_don VALUES
 ('HD002','KH002','NV002','2025-11-02',30000000);
 
 -- ===============================
--- Bảng chi tiết hóa đơn
+-- Bảng chi tiết hóa đơn (cascade khi xóa hóa đơn hoặc sản phẩm)
 -- ===============================
 CREATE TABLE chi_tiet_hoa_don (
     Ma_hoa_don VARCHAR(10),
@@ -118,8 +122,10 @@ CREATE TABLE chi_tiet_hoa_don (
     So_luong INT NOT NULL,
     Don_gia DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (Ma_hoa_don, Ma_san_pham),
-    FOREIGN KEY (Ma_hoa_don) REFERENCES hoa_don(Ma_hoa_don),
+    FOREIGN KEY (Ma_hoa_don) REFERENCES hoa_don(Ma_hoa_don)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (Ma_san_pham) REFERENCES san_pham(Ma_san_pham)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO chi_tiet_hoa_don VALUES
