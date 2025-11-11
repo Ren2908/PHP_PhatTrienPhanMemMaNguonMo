@@ -59,6 +59,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             include('./_product_manager/edit_product.php');
           } elseif ($page == 'list_product_category') {
             include('./_product_manager/list_product_category.php');
+          } elseif ($page == 'add_product_category') {
+            include('_product_manager/add_product_category.php');
+          } elseif ($page == 'edit_product_category') {
+            include('./_product_manager/edit_product_category.php');
+          } elseif ($page == 'list_product_brand') {
+            include('./_product_manager/list_product_brand.php');
+          } elseif ($page == 'add_product_brand') {
+            include('_product_manager/add_product_brand.php');
+          } elseif ($page == 'edit_product_brand') {
+            include('./_product_manager/edit_product_brand.php');
           } else {
             include('./_includes/404_error.php');
           }
