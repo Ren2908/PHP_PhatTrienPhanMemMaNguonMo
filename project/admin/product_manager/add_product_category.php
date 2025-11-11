@@ -43,5 +43,5 @@ if (isset($_POST['submit'])) {
     </div>
 
     <button type="submit" name="submit" class="btn btn-primary">Thêm loại sản phẩm</button>
-    <a href="index_admin.php?page=list_product_category">Về trang loại sản phẩm</a>
+    <a href="index_admin.php?page=list_product_category" class="btn btn-secondary">Về trang loại sản phẩm</a>
 </form>

@@ -181,3 +181,36 @@ INSERT INTO chi_tiet_hoa_don VALUES
 ('HD7','SP7',1,21000000),
 ('HD8','SP10',1,37000000),
 ('HD9','SP8',1,32000000);
+
+CREATE TABLE quyen (
+    Ma_quyen VARCHAR(10) PRIMARY KEY,
+    Ten_quyen VARCHAR(50) NOT NULL,
+    Mo_ta VARCHAR(200)
+);
+
+INSERT INTO quyen VALUES
+('Q1', 'Admin', 'Quản trị hệ thống, có toàn quyền'),
+('Q2', 'NhanVien', 'Nhân viên bán hàng, quản lý hóa đơn, sản phẩm'),
+('Q3', 'KhachHang', 'Khách hàng, có thể xem và mua hàng');
+
+
+CREATE TABLE tai_khoan (
+    Ten_dang_nhap VARCHAR(50) PRIMARY KEY,
+    Mat_khau VARCHAR(255) NOT NULL,  -- lưu password đã mã hóa (bcrypt, sha256, ...)
+    Ma_quyen VARCHAR(10),             -- liên kết tới bảng quyền
+    Ma_nhan_vien VARCHAR(10),         -- nếu tài khoản thuộc về nhân viên
+    Ma_khach_hang VARCHAR(10),        -- nếu tài khoản thuộc về khách hàng
+    Trang_thai TINYINT(1) DEFAULT 1,  -- 1: hoạt động, 0: bị khóa
+    Ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Ma_quyen) REFERENCES quyen(Ma_quyen)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (Ma_nhan_vien) REFERENCES nhan_vien(Ma_nhan_vien)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Ma_khach_hang) REFERENCES khach_hang(Ma_khach_hang)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+INSERT INTO tai_khoan VALUES
+('admin', '1', 'Q1', 'NV1', NULL, 1, NOW()),
+('nv_hoang', '1', 'Q2', 'NV2', NULL, 1, NOW()),
+('kh_nguyen', '1', 'Q3', NULL, 'KH1', 1, NOW());
+

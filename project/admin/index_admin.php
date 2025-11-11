@@ -52,23 +52,35 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
           <?php
           // load nội dung chính theo biến $page
           if ($page == 'list_product') {
-            include('_product_manager/list_product.php');
+            include('product_manager/list_product.php');
           } elseif ($page == 'add_product') {
-            include('_product_manager/add_product.php');
+            include('product_manager/add_product.php');
           } elseif ($page == 'edit_product') {
-            include('./_product_manager/edit_product.php');
+            include('./product_manager/edit_product.php');
           } elseif ($page == 'list_product_category') {
-            include('./_product_manager/list_product_category.php');
+            include('./product_manager/list_product_category.php');
           } elseif ($page == 'add_product_category') {
-            include('_product_manager/add_product_category.php');
+            include('product_manager/add_product_category.php');
           } elseif ($page == 'edit_product_category') {
-            include('./_product_manager/edit_product_category.php');
+            include('./product_manager/edit_product_category.php');
           } elseif ($page == 'list_product_brand') {
-            include('./_product_manager/list_product_brand.php');
+            include('./product_manager/list_product_brand.php');
           } elseif ($page == 'add_product_brand') {
-            include('_product_manager/add_product_brand.php');
+            include('product_manager/add_product_brand.php');
           } elseif ($page == 'edit_product_brand') {
-            include('./_product_manager/edit_product_brand.php');
+            include('./product_manager/edit_product_brand.php');
+          } elseif ($page == 'list_user_customer') {
+            include('./user_manager/list_user_customer.php');
+          } elseif ($page == 'add_user_customer') {
+            include('./user_manager/add_user_customer.php');
+          } elseif ($page == 'edit_user_customer') {
+            include('./user_manager/edit_user_customer.php');
+          } elseif ($page == 'list_user_employee') {
+            include('./user_manager/list_user_employee.php');
+          } elseif ($page == 'add_user_employee') {
+            include('./user_manager/add_user_employee.php');
+          } elseif ($page == 'edit_user_employee') {
+            include('./user_manager/edit_user_employee.php');
           } else {
             include('./_includes/404_error.php');
           }

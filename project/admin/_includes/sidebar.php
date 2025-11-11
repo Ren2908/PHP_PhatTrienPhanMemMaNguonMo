@@ -62,7 +62,7 @@
       aria-expanded="true"
       aria-controls="collapseCustomer">
       <i class="fas fa-fw fa-folder"></i>
-      <span>Quản lý khách hàng</span>
+      <span>Quản lý người dùng</span>
     </a>
     <div
       id="collapseCustomer"
@@ -70,19 +70,60 @@
       aria-labelledby="headingCustomers"
       data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Sản phẩm:</h6>
-        <a class="collapse-item" href="product_list.php">Danh sách</a>
-        <a class="collapse-item" href="add_product.php">Thêm sản phẩm</a>
+        <h6 class="collapse-header">Khách hàng:</h6>
+        <a class="collapse-item" href="index_admin.php?page=list_user_customer">Danh sách khách hàng</a>
+        <h6 class="collapse-header">Nhân viên:</h6>
+        <a class="collapse-item" href="index_admin.php?page=list_user_employee">Danh sách nhân viên</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link collapsed"
+      href="#"
+      data-toggle="collapse"
+      data-target="#collapseRevenue"
+      aria-expanded="true"
+      aria-controls="collapseRevenue">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Quản lý doanh thu</span>
+    </a>
+    <div
+      id="collapseRevenue"
+      class="collapse"
+      aria-labelledby="headingRevenue"
+      data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Hoá đơn:</h6>
+        <a class="collapse-item" href="index_admin.php?page=list_user">Danh sách hoá đơn</a>
+      </div>
+    </div>
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link collapsed"
+      href="#"
+      data-toggle="collapse"
+      data-target="#collapseAccount_Authorization"
+      aria-expanded="true"
+      aria-controls="collapseAccount_Authorization">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Phân quyền và tài khoản</span>
+    </a>
+    <div
+      id="collapseAccount_Authorization"
+      class="collapse"
+      aria-labelledby="headingAccount_Authorization"
+      data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Tài khoản và quyền:</h6>
+        <a class="collapse-item" href="index_admin.php?page=list_account">Danh sách tài khoản</a>
+        <a class="collapse-item" href="index_admin.php?page=list_account">Danh sách quyền</a>
       </div>
     </div>
   </li>
 
-  <!-- Nav Item - Tables -->
-  <li class="nav-item">
-    <a class="nav-link" href="tables.html">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Tables</span></a>
-  </li>
+
 
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block" />

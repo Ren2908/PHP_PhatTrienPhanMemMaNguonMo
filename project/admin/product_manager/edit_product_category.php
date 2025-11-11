@@ -50,6 +50,6 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
         <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc muốn cập nhật loại sản phẩm này?')">Cập nhật loại sản phẩm</button>
-        <a href="index_admin.php?page=list_product_category">Về trang loại sản phẩm</a>
+        <a href="index_admin.php?page=list_product_category" class="btn btn-secondary">Về trang loại sản phẩm</a>
     <?php } ?>
 </form>

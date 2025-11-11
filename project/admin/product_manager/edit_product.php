@@ -154,6 +154,6 @@ if (isset($_POST['submit'])) {
             <textarea name="Mo_ta" class="form-control" rows="3"><?php echo $sp['Mo_ta']; ?></textarea>
         </div>
         <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc muốn cập nhật sản phẩm này?')">Cập nhật sản phẩm</button>
-        <a href="index_admin.php?page=list_product">Về trang sản phẩm</a>
+        <a href="index_admin.php?page=list_product" class="btn btn-secondary">Về trang sản phẩm</a>
     <?php } ?>
 </form>

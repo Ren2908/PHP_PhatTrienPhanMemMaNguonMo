@@ -67,6 +67,6 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
         <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc muốn cập nhật nhà cung cấp này?')">Cập nhật nhà cung cấp</button>
-        <a href="index_admin.php?page=list_product_brand">Về trang nhà cung cấp</a>
+        <a href="index_admin.php?page=list_product_brand" class="btn btn-secondary">Về trang nhà cung cấp</a>
     <?php } ?>
 </form>

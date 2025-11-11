@@ -39,23 +39,23 @@ if (isset($_POST['submit'])) {
             <label>Mã nhà cung cấp:</label>
             <input type="text" name="Ma_nha_cung_cap" class="form-control" value="<?php echo $new_ncc; ?>" readonly>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <label>Tên nhà cung cấp:</label>
             <input type="text" name="Ten_nha_cung_cap" class="form-control" required value="<?php echo isset($_POST['Ten_nha_cung_cap']) ? htmlspecialchars($_POST['Ten_nha_cung_cap']) : ''; ?>">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <label>Địa chỉ:</label>
             <input type="text" name="Dia_chi" class="form-control" required value="<?php echo isset($_POST['Dia_chi']) ? htmlspecialchars($_POST['Dia_chi']) : ''; ?>">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <label>Điện thoại:</label>
             <input type="number" name="Dien_thoai" class="form-control" required value="<?php echo isset($_POST['Dien_thoai']) ? htmlspecialchars($_POST['Dien_thoai']) : ''; ?>">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
             <label>Email:</label>
             <input type="text" name="Email" class="form-control" required value="<?php echo isset($_POST['Email']) ? htmlspecialchars($_POST['Email']) : ''; ?>">
         </div>
     </div>
     <button type="submit" name="submit" class="btn btn-primary">Thêm nhà cung cấp</button>
-    <a href="index_admin.php?page=list_product_brand">Về trang nhà cung cấp</a>
+    <a href="index_admin.php?page=list_product_brand" class="btn btn-secondary">Về trang nhà cung cấp</a>
 </form>
