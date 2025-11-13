@@ -150,7 +150,7 @@ $filter_ncc = isset($_GET['filter_ncc']) ? $_GET['filter_ncc'] : '';
                             <td><?php echo $row['So_luong']; ?></td>
                             <td><?php echo number_format($row['Don_gia'], 0); ?> VNĐ</td>
                             <td><?php echo $row['Ma_nha_cung_cap'] . '(' . $row['Ten_nha_cung_cap'] . ')'; ?></td>
-                            <td class="text-start" style="word-break: break-word; max-width: 200px;">
+                            <td class="description">
                                 <?php echo $row['Mo_ta']; ?>
                             </td>
                             <td><?php echo $row['Ngay_tao']; ?></td>

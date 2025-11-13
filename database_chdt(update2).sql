@@ -135,25 +135,29 @@ CREATE TABLE hoa_don (
     Ma_hoa_don VARCHAR(10) PRIMARY KEY,
     Ma_khach_hang VARCHAR(10),
     Ma_nhan_vien VARCHAR(10),
-    Ngay_lap DATE NOT NULL,
+    Ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP,
     Tong_tien DECIMAL(12,2) NOT NULL,
+	Trang_thai TINYINT(1) DEFAULT 0, -- 0 = Chưa hoàn thành, 1 = Hoàn thành
+	Loai_don_hang TINYINT(1) DEFAULT 0, -- 0 = offline, 1 = online
     FOREIGN KEY (Ma_khach_hang) REFERENCES khach_hang(Ma_khach_hang)
         ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (Ma_nhan_vien) REFERENCES nhan_vien(Ma_nhan_vien)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO hoa_don VALUES
-('HD1','KH1','NV1','2025-11-01',32000000),
-('HD2','KH2','NV2','2025-11-02',30000000),
-('HD3','KH3','NV3','2025-11-03',19000000),
-('HD4','KH4','NV4','2025-11-04',45000000),
-('HD5','KH5','NV5','2025-11-05',22000000),
-('HD6','KH6','NV6','2025-11-06',55000000),
-('HD7','KH7','NV7','2025-11-07',21000000),
-('HD8','KH8','NV8','2025-11-08',37000000),
-('HD9','KH9','NV9','2025-11-09',32000000),
-('HD10','KH10','NV10','2025-11-10',7000000);
+INSERT INTO hoa_don 
+(Ma_hoa_don, Ma_khach_hang, Ma_nhan_vien, Ngay_tao, Tong_tien, Trang_thai, Loai_don_hang) VALUES
+('HD1','KH1','NV1',NOW(),32000000,1,0),
+('HD2','KH2','NV2',NOW(),30000000,0,1),
+('HD3','KH3','NV3',NOW(),19000000,1,0),
+('HD4','KH4','NV4',NOW(),45000000,0,1),
+('HD5','KH5','NV5',NOW(),22000000,1,0),
+('HD6','KH6','NV6',NOW(),55000000,0,1),
+('HD7','KH7','NV7',NOW(),21000000,1,0),
+('HD8','KH8','NV8',NOW(),37000000,0,1),
+('HD9','KH9','NV9',NOW(),32000000,1,0),
+('HD10','KH10','NV10',NOW(),7000000,0,1);
+
 
 -- ===============================
 -- Bảng chi tiết hóa đơn
