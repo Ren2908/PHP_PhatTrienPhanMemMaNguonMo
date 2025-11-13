@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Auto-complete Search</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  </head>
+  <body>
+    <h2>Search Product:</h2>
+    <input type="text" id="search" placeholder="Type product name..." />
+
+    <script>
+      $(function () {
+        $("#search").autocomplete({
+          source: function (request, response) {
+            $.ajax({
+              url: "search.php",
+              dataType: "json",
+              data: { term: request.term },
+              success: function (data) {
+                response(data);
+              },
+            });
+          },
+          minLength: 1,
+        });
+      });
+    </script>
+  </body>
+</html>

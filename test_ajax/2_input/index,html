@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>2 Auto-complete Fields</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  </head>
+  <body>
+    <h3>Search Product:</h3>
+    <input type="text" id="product_search" placeholder="Type product name..." />
+
+    <h3>Search Customer:</h3>
+    <input
+      type="text"
+      id="customer_search"
+      placeholder="Type customer name..."
+    />
+
+    <script>
+      $(function () {
+        $("#product_search").autocomplete({
+          source: function (request, response) {
+            $.ajax({
+              url: "search_product.php",
+              dataType: "json",
+              data: { term: request.term },
+              success: function (data) {
+                response(data);
+              },
+            });
+          },
+          minLength: 1,
+        });
+
+        $("#customer_search").autocomplete({
+          source: function (request, response) {
+            $.ajax({
+              url: "search_customer.php",
+              dataType: "json",
+              data: { term: request.term },
+              success: function (data) {
+                response(data);
+              },
+            });
+          },
+          minLength: 1,
+        });
+      });
+    </script>
+  </body>
+</html>
