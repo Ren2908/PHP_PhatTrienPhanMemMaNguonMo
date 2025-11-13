@@ -218,3 +218,20 @@ INSERT INTO tai_khoan VALUES
 ('nv_hoang', '1', 'Q2', 'NV2', NULL, 1, NOW()),
 ('kh_nguyen', '1', 'Q3', NULL, 'KH1', 1, NOW());
 
+DELIMITER //
+
+CREATE TRIGGER trg_after_insert_cthd
+AFTER INSERT ON chi_tiet_hoa_don
+FOR EACH ROW
+BEGIN
+    UPDATE hoa_don
+    SET Tong_tien = (
+        SELECT SUM(So_luong * Don_gia)
+        FROM chi_tiet_hoa_don
+        WHERE Ma_hoa_don = NEW.Ma_hoa_don
+    )
+    WHERE Ma_hoa_don = NEW.Ma_hoa_don;
+END;
+//
+
+DELIMITER ;
