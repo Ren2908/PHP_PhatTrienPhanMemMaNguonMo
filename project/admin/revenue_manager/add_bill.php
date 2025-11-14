@@ -6,9 +6,6 @@ $result_max = mysqli_query($conn, $query_max);
 $row_max = mysqli_fetch_assoc($result_max);
 $new_id = 'HD' . ($row_max['max_id'] + 1);
 $now_id = $new_id;
-
-
-
 if (isset($_GET['ajax'])) {
     $type = isset($_GET['type']) ? $_GET['type'] : '';
     $term = isset($_GET['term']) ? $_GET['term'] : '';
@@ -136,12 +133,9 @@ if (isset($_POST['submit'])) {
 <script>
     $(function() {
         $(document).ready(function() {
-            // Khi nhấn nút thêm
-            $(document).on('click', '.add_product_btn', function() {
-                // clone row hiện tại
-                var newRow = $(this).closest('.product_row').clone();
-                //Chạy ajax cho clone
-                newRow.find('input[name="Ten_san_pham[]"]').val('').autocomplete({
+            // Hàm khởi tạo autocomplete cho sản phẩm
+            function initProductAutocomplete(inputElement) {
+                inputElement.autocomplete({
                     source: function(request, response) {
                         $.ajax({
                             url: "revenue_manager/add_bill.php",
@@ -173,7 +167,7 @@ if (isset($_POST['submit'])) {
                                         return existing.indexOf(item.value) === -1;
                                     });
 
-                                    response(filtered); // gửi mảng đã lọc cho autocomplete
+                                    response(filtered);
                                 }
                             }
                         });
@@ -182,21 +176,42 @@ if (isset($_POST['submit'])) {
                     select: function(event, ui) {
                         if (ui.item.isNotFound) {
                             alert("Sản phẩm này không tồn tại trong database!");
-                            $(this).val(""); // Xoá input nếu muốn
+                            $(this).val("");
                             return false;
                         } else {
-                            $("#customer_name").val(ui.item.name);
+                            // Lưu số lượng tồn kho vào data attribute
+                            $(this).data('max-quantity', ui.item.SoLuong);
+
+                            // Cập nhật placeholder cho ô số lượng tương ứng
+                            var quantityInput = $(this).closest('.product_row').find('input[name="So_luong[]"]');
+                            quantityInput.attr('placeholder', 'Tồn kho: ' + ui.item.SoLuong);
+                            quantityInput.attr('max', ui.item.SoLuong);
+                            quantityInput.val(''); // Reset giá trị
                         }
                     }
                 });
-                // xóa giá trị input
-                newRow.find('input').val('');
-                // đổi nút "Thêm" thành nút "Xoá"
+            }
+
+            // Khởi tạo autocomplete cho ô sản phẩm đầu tiên
+            initProductAutocomplete($('#product_search'));
+
+            // Khi nhấn nút thêm
+            $(document).on('click', '.add_product_btn', function() {
+                var newRow = $(this).closest('.product_row').clone();
+
+                // Xóa giá trị input và data attribute
+                newRow.find('input[name="Ten_san_pham[]"]').val('').removeData('max-quantity').removeClass('invalid');
+                newRow.find('input[name="So_luong[]"]').val('').attr('placeholder', 'Nhập số lượng').removeAttr('max').removeClass('is-invalid');
+
+                // Khởi tạo autocomplete cho row mới
+                initProductAutocomplete(newRow.find('input[name="Ten_san_pham[]"]'));
+
+                // Đổi nút "Thêm" thành nút "Xoá"
                 newRow.find('.add_product_btn')
                     .removeClass('add_product_btn btn-secondary')
                     .addClass('remove_product_btn btn-danger')
                     .text('Xoá');
-                // thêm row mới vào cuối danh sách
+
                 $('#product_list').append(newRow);
             });
 
@@ -204,7 +219,63 @@ if (isset($_POST['submit'])) {
             $(document).on('click', '.remove_product_btn', function() {
                 $(this).closest('.product_row').remove();
             });
+
+            // Kiểm tra tên sản phẩm khi blur (cho cả row đầu và row clone)
+            $(document).on('blur', 'input[name="Ten_san_pham[]"]', function() {
+                var productInput = $(this);
+                var productName = productInput.val().trim();
+                if (productName === '') return;
+                // Kiểm tra xem đã chọn từ autocomplete chưa (có max-quantity)
+                if (!productInput.data('max-quantity')) {
+                    $.ajax({
+                        url: 'revenue_manager/add_bill.php',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            ajax: 1,
+                            type: 'check_exist',
+                            field: 'Ten_san_pham[]',
+                            term: productName
+                        },
+                        success: function(res) {
+                            if (!res.exists) {
+                                productInput.addClass('invalid');
+                                alert('Sản phẩm "' + productName + '" không tồn tại trong cơ sở dữ liệu!');
+                                productInput.val('');
+                                // Reset ô số lượng tương ứng
+                                productInput.closest('.product_row').find('input[name="So_luong[]"]')
+                                    .val('')
+                                    .attr('placeholder', 'Nhập số lượng')
+                                    .removeAttr('max');
+                            }
+                        }
+                    });
+                }
+            });
+            // Kiểm tra khi blur (rời khỏi ô số lượng)
+            $(document).on('blur', 'input[name="So_luong[]"]', function() {
+                var quantityInput = $(this);
+                var productInput = quantityInput.closest('.product_row').find('input[name="Ten_san_pham[]"]');
+                var maxQuantity = productInput.data('max-quantity');
+                var enteredQuantity = parseInt(quantityInput.val());
+
+                // Kiểm tra nếu chưa chọn sản phẩm
+                if (!maxQuantity && quantityInput.val()) {
+                    alert('Vui lòng chọn sản phẩm trước khi nhập số lượng!');
+                    quantityInput.val('');
+                    productInput.focus();
+                    return;
+                }
+
+                // Kiểm tra số lượng vượt quá
+                if (maxQuantity && enteredQuantity > maxQuantity) {
+                    alert('Số lượng nhập (' + enteredQuantity + ') vượt quá số lượng tồn kho (' + maxQuantity + ')!');
+                    quantityInput.val('');
+                    quantityInput.focus();
+                }
+            });
         });
+        // Autocomplete cho khách hàng
         $("#customer_search").autocomplete({
             source: function(request, response) {
                 $.ajax({
@@ -226,7 +297,6 @@ if (isset($_POST['submit'])) {
                         } else {
                             response(data);
                         }
-
                     }
                 });
             },
@@ -234,86 +304,14 @@ if (isset($_POST['submit'])) {
             select: function(event, ui) {
                 if (ui.item.isNotFound) {
                     alert("Số điện thoại này không tồn tại trong database!");
-                    $(this).val(""); // Xoá input nếu muốn
-                    $("#customer_name").val(""); // Xoá ô tên
+                    $(this).val("");
+                    $("#customer_name").val("");
                     return false;
                 } else {
                     $("#customer_name").val(ui.item.name);
                 }
             }
-
-        });
-        $("#product_search").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "revenue_manager/add_bill.php",
-                    dataType: "json",
-                    type: 'GET',
-                    data: {
-                        ajax: 1,
-                        type: 'product',
-                        term: request.term
-                    },
-                    success: function(data) {
-                        if (data.length === 0) {
-                            response([{
-                                label: "Không tồn tại",
-                                value: "",
-                                isNotFound: true
-                            }])
-                        } else {
-                            response(data);
-                        }
-                    }
-                });
-            },
-            minLength: 1,
-            select: function(event, ui) {
-                if (ui.item.isNotFound) {
-                    alert("Sản phẩm này không tồn tại trong database!");
-                    $(this).val(""); // Xoá input nếu muốn
-                    return false;
-                }
-            }
-        });
-        $(document).ready(function() {
-            // Khi rời khỏi bất kỳ ô nào có class auto-check
-            $('.auto-check').on('blur', function() { //blur là event xảy ra khi một phần tử mất focus
-                let input = $(this);
-                let value = input.val().trim();
-
-                if (value === '') return; // bỏ qua nếu chưa nhập gì
-
-                // Gửi AJAX kiểm tra dữ liệu có tồn tại không
-                $.ajax({
-                    url: 'revenue_manager/add_bill.php',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: {
-                        ajax: 1,
-                        type: 'check_exist', // một loại kiểm tra chung
-                        field: input.attr('name'), // gửi tên cột
-                        term: value
-                    },
-                    success: function(res) {
-                        if (res.exists) {
-                            input.removeClass('invalid');
-                        } else {
-                            input.addClass('invalid');
-                            alert('Giá trị "' + value + '" không tồn tại trong cơ sở dữ liệu!');
-                        }
-                    }
-                });
-            });
-
-            // Khi nhấn submit form
-            $('form').on('submit', function(e) {
-                if ($('.invalid').length > 0) {
-                    e.preventDefault();
-                    alert('Vui lòng kiểm tra lại các trường không hợp lệ!');
-                }
-            });
         });
 
-    })
+    });
 </script>
