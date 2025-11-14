@@ -32,8 +32,6 @@ ORDER BY CAST(SUBSTRING(cthd.Ma_hoa_don, 3) AS UNSIGNED) ASC
 LIMIT $start, $rows_per_page
 ";
 
-
-
 $result_to_show = mysqli_query($conn, $query_to_show);
 
 // Lấy tổng số dòng để tính tổng số trang
@@ -75,6 +73,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                         <th>Hình ảnh</th>
                         <th>Số lượng</th>
                         <th>Đơn giá</th>
+                        <th>Tổng đơn giá</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,7 +99,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                             </td>
                             <td><?php echo $row['So_luong']; ?></td>
                             <td><?php echo number_format($row['Don_gia'], 0, ',', '.'); ?></td>
-
+                            <td><?php echo number_format($row['So_luong'] * $row['Don_gia'], 0, '.', ',') ?></td>
                         </tr>
                     <?php
                         $i++;
