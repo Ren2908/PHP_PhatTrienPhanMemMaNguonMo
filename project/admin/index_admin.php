@@ -108,6 +108,16 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             include('./revenue_manager/list_bill_detail.php');
           } elseif ($page == 'add_bill') {
             include('./revenue_manager/add_bill.php');
+          } elseif ($page == 'list_authorization') {
+            include('./authorization_acount_manager\list_authorization.php');
+          } elseif ($page == 'list_account') {
+            include('./authorization_acount_manager\list_account.php');
+          } elseif ($page == 'edit_account') {
+            include('./authorization_acount_manager\edit_account.php');
+          } elseif ($page == 'add_account_customer') {
+            include('./authorization_acount_manager\add_account_customer.php');
+          } elseif ($page == 'add_account_employee') {
+            include('./authorization_acount_manager\add_account_employee.php');
           } else {
             include('./_includes/404_error.php');
           }

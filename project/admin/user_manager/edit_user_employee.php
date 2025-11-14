@@ -10,12 +10,12 @@ if (isset($_POST['submit'])) {
     $gioi_tinh = $_POST['Phai'];
     $chuc_vu = $_POST['Chuc_vu'];
     //Kiểm tra trùng
-    $query_duplicate = "SELECT Dien_thoai, Ma_khach_hang from khach_hang where Dien_thoai = '$dien_thoai'";
+    $query_duplicate = "SELECT Dien_thoai, Ma_nhan_vien from nhan_vien where Dien_thoai = '$dien_thoai' and Ma_nhan_vien != '$id_detail'";
     $query_duplicate_result = mysqli_query($conn, $query_duplicate);
     $duplicate_result = mysqli_fetch_assoc($query_duplicate_result);
 
     if (mysqli_num_rows($query_duplicate_result) > 0) {
-        echo '<div class="alert alert-danger">Số điện thoại đã tồn tại! Mã nhân viên: ' . $duplicate_result['Ma_khach_hang'] . '</div>';
+        echo '<div class="alert alert-danger">Số điện thoại đã tồn tại! Mã nhân viên: ' . $duplicate_result['Ma_nhan_vien'] . '</div>';
     } else {
         $query_update_detail = "
     UPDATE nhan_vien 

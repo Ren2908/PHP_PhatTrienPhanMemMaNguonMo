@@ -117,8 +117,8 @@
       data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Tài khoản và quyền:</h6>
+        <a class="collapse-item" href="index_admin.php?page=list_authorization">Danh sách quyền</a>
         <a class="collapse-item" href="index_admin.php?page=list_account">Danh sách tài khoản</a>
-        <a class="collapse-item" href="index_admin.php?page=list_account">Danh sách quyền</a>
       </div>
     </div>
   </li>

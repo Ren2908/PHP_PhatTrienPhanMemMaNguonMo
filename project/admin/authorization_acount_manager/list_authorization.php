@@ -1,9 +1,9 @@
 <?php
-// --- Xoá nhân viên ---
-if (isset($_GET['Ma_nhan_vien'])) {
-    $id = $_GET['Ma_nhan_vien'];
-    // Xóa nhân viên
-    $delete_product_cat = "DELETE FROM nhan_vien WHERE Ma_nhan_vien='$id'";
+// --- Xoá quyền ---
+if (isset($_GET['Ma_quyen'])) {
+    $id = $_GET['Ma_quyen'];
+    // Xóa quyền
+    $delete_product_cat = "DELETE FROM quyen WHERE Ma_quyen='$id'";
     if (mysqli_query($conn, $delete_product_cat)) {
         echo '<div id="alert-box" class="alert alert-success"
           style="position:fixed; top:20px; right:20px; z-index:9999;">
@@ -11,19 +11,19 @@ if (isset($_GET['Ma_nhan_vien'])) {
           <script>
               setTimeout(function() {
                   document.getElementById("alert-box").remove();
-                  window.location.href = "index_admin.php?page=list_user_employee";
+                  window.location.href = "index_admin.php?page=list_authorization";
               });
           </script>';
     } else {
-        echo "Lỗi xóa nhân viên: " . mysqli_error($conn);
+        echo "Lỗi xóa quyền: " . mysqli_error($conn);
     }
 }
 
-// --- Tìm dữ liệu nhân viên ---
+// --- Tìm dữ liệu quyền ---
 $search_result = isset($_GET['search']) ? trim($_GET['search']) : '';
 $where_search = '';
 if ($search_result != '') {
-    $where_search = "WHERE Ten_nhan_vien LIKE '%$search_result%'";
+    $where_search = "WHERE Ten_quyen LIKE '%$search_result%'";
 }
 
 // --- Phân trang ---
@@ -33,15 +33,15 @@ $start = ($current_page - 1) * $rows_per_page;
 
 // Lấy dữ liệu để hiển thị
 $query_to_show = "
-SELECT * FROM nhan_vien
+SELECT * FROM quyen
 $where_search
-ORDER BY CAST(SUBSTRING(Ma_nhan_vien, 3) AS UNSIGNED) ASC
+ORDER BY CAST(SUBSTRING(Ma_quyen, 1) AS UNSIGNED) ASC
 LIMIT $start, $rows_per_page
 ";
 $result_to_show = mysqli_query($conn, $query_to_show);
 
 // Lấy tổng số dòng để tính tổng số trang
-$query_count = "SELECT * FROM nhan_vien $where_search";
+$query_count = "SELECT * FROM quyen $where_search";
 $result_count = mysqli_query($conn, $query_count);
 $total_rows = mysqli_num_rows($result_count);
 $total_pages = ceil($total_rows / $rows_per_page);
@@ -50,16 +50,16 @@ $total_pages = ceil($total_rows / $rows_per_page);
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center flex-wrap">
-        <h6 class="m-0 font-weight-bold text-primary">Danh sách nhân viên</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Danh sách quyền</h6>
         <form action="index_admin.php" method="get">
-            <input type="hidden" name="page" value="list_user_employee">
+            <input type="hidden" name="page" value="list_authorization">
             <!-- Input tìm kiếm -->
             <div class="input-group mb-3" style="max-width: 400px; margin: 0 auto;">
-                <input type="text" name="search" class="form-control" placeholder="Tìm tên nhân viên..." value="<?php echo trim($search_result); ?>">
+                <input type="text" name="search" class="form-control" placeholder="Tìm tên quyền..." value="<?php echo trim($search_result); ?>">
                 <button class="btn btn-primary" type="submit">Tìm</button>
             </div>
         </form>
-        <!-- <a href="index_admin.php?page=add_user_employee" class="btn btn-success">Thêm nhân viên</a> -->
+        <!-- <a href="index_admin.php?page=add_authorization" class="btn btn-success">Thêm quyền</a> -->
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -67,13 +67,10 @@ $total_pages = ceil($total_rows / $rows_per_page);
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Mã nhân viên</th>
-                        <th>Tên nhân viên</th>
-                        <th>Giới tính</th>
-                        <th>Địa chỉ</th>
-                        <th>Điện thoại</th>
-                        <th>Chức vụ</th>
-                        <th>Hành động</th>
+                        <th>Mã quyền</th>
+                        <th>Tên quyền</th>
+                        <th>Mô tả</th>
+                        <!-- <th>Hành động</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -83,21 +80,13 @@ $total_pages = ceil($total_rows / $rows_per_page);
                     ?>
                         <tr>
                             <td><?php echo $i; ?></td>
-                            <td><?php echo $row['Ma_nhan_vien']; ?></td>
-                            <td><?php echo $row['Ten_nhan_vien']; ?></td>
-                            <td><?php if ($row['Phai'] == 1) {
-                                    echo "Nam";
-                                } else {
-                                    echo "Nữ";
-                                }
-                                ?></td>
-                            <td><?php echo $row['Dia_chi']; ?></td>
-                            <td><?php echo $row['Dien_thoai']; ?></td>
-                            <td><?php echo $row['Chuc_vu']; ?></td>
-                            <td>
-                                <a href="index_admin.php?page=edit_user_employee&id=<?php echo $row['Ma_nhan_vien']; ?>" class="btn btn-sm btn-warning">Sửa</a>
-                                <a href="index_admin.php?page=list_user_employee&Ma_nhan_vien=<?php echo $row['Ma_nhan_vien']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')">Xoá</a>
-                            </td>
+                            <td><?php echo $row['Ma_quyen']; ?></td>
+                            <td><?php echo $row['Ten_quyen']; ?></td>
+                            <td><?php echo $row['Mo_ta']; ?></td>
+                            <!-- <td>
+                                <a href="index_admin.php?page=edit_authorization&id=<?php echo $row['Ma_quyen']; ?>" class="btn btn-sm btn-warning">Sửa</a>
+                                <a href="index_admin.php?page=list_authorization&Ma_quyen=<?php echo $row['Ma_quyen']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá quyền này?')">Xoá</a>
+                            </td> -->
                         </tr>
                     <?php
                         $i++;
@@ -112,7 +101,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                     <li class="page-item <?php if ($current_page <= 1) echo 'disabled'; ?>">
                         <?php
                         $prev_page = $current_page - 1;
-                        $prev_link = "index_admin.php?page=list_user_employee&page_num=$prev_page";
+                        $prev_link = "index_admin.php?page=list_authorization&page_num=$prev_page";
                         if ($search_result != '') $prev_link .= "&search=" . $search_result;
                         ?>
                         <a class="page-link" href="<?php echo $prev_link; ?>" tabindex="-1">Trước</a>
@@ -121,7 +110,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                     <!-- Các số trang -->
                     <?php
                     for ($p = 1; $p <= $total_pages; $p++) {
-                        $link = "index_admin.php?page=list_user_employee&page_num=$p";
+                        $link = "index_admin.php?page=list_authorization&page_num=$p";
                         if ($search_result != '') $link .= "&search=" . $search_result;
 
                         $active = ($p == $current_page) ? 'active' : '';
@@ -133,7 +122,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                     <li class="page-item <?php if ($current_page >= $total_pages) echo 'disabled'; ?>">
                         <?php
                         $next_page = $current_page + 1;
-                        $next_link = "index_admin.php?page=list_user_employee&page_num=$next_page";
+                        $next_link = "index_admin.php?page=list_authorization&page_num=$next_page";
                         if ($search_result != '') $next_link .= "&search=" . $search_result;
                         ?>
                         <a class="page-link" href="<?php echo $next_link; ?>">Sau</a>

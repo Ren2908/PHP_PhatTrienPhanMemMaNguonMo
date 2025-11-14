@@ -10,7 +10,7 @@ if (isset($_POST['submit'])) {
     $gioi_tinh = $_POST['Phai'];
     $email = $_POST['Email'];
     //Kiểm tra trùng
-    $query_duplicate = "SELECT Dien_thoai, Ma_khach_hang from khach_hang where Dien_thoai = '$dien_thoai'";
+    $query_duplicate = "SELECT Dien_thoai, Ma_khach_hang from khach_hang where Dien_thoai = '$dien_thoai' and Ma_khach_hang != '$id_detail'";
     $query_duplicate_result = mysqli_query($conn, $query_duplicate);
     $duplicate_result = mysqli_fetch_assoc($query_duplicate_result);
 

@@ -59,7 +59,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                 <button class="btn btn-primary" type="submit">Tìm</button>
             </div>
         </form>
-        <a href="index_admin.php?page=add_user_customer" class="btn btn-success">Thêm khách hàng</a>
+        <!-- <a href="index_admin.php?page=add_user_customer" class="btn btn-success">Thêm khách hàng</a> -->
     </div>
     <div class="card-body">
         <div class="table-responsive">
