@@ -77,7 +77,7 @@ $resultBanChay = $conn->query($sqlBanChay);
             while ($rowBC = $resultBanChay->fetch_assoc()) {
                 echo '<div class="product-item">';
                 echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($rowBC['Ma_san_pham']) . '">';
-                echo '<img src="../admin/_images/' . htmlspecialchars($rowBC['Hinh_anh']) . '" alt="' . htmlspecialchars($rowBC['Ten_san_pham']) . '"><br>';
+                echo '<img src="images/' . htmlspecialchars($rowBC['Hinh_anh']) . '" alt="' . htmlspecialchars($rowBC['Ten_san_pham']) . '"><br>';
                 echo '<strong>' . htmlspecialchars($rowBC['Ten_san_pham']) . '</strong>';
                 echo '</a><br>';
                 echo '<span>Giá: ' . number_format($rowBC['Don_gia'], 0, ',', '.') . ' VND</span><br>';
@@ -106,7 +106,7 @@ $resultBanChay = $conn->query($sqlBanChay);
                         while($row = $result->fetch_assoc()) {
                             echo '<div class="product-item">';
                             echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($row['Ma_san_pham']) . '">';
-                            echo '<img src="../admin/_images/' . htmlspecialchars($row['Hinh_anh']) . '" alt="' . htmlspecialchars($row['Ten_san_pham']) . '"><br>';
+                            echo '<img src="images/' . htmlspecialchars($row['Hinh_anh']) . '" alt="' . htmlspecialchars($row['Ten_san_pham']) . '"><br>';
                             echo '<strong>' . htmlspecialchars($row['Ten_san_pham']) . '</strong>';
                             echo '</a><br>';
                             echo '<span>Giá: ' . number_format($row['Don_gia'], 0, ',', '.') . ' VND</span><br>';
@@ -158,6 +158,6 @@ $resultBanChay = $conn->query($sqlBanChay);
     include('includes/footer.html');
     ?>
 </body>
-<script src="./java/gio_hang.js"></script>
+<script src="./js/gio_hang.js"></script>
 
 </html>

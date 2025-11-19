@@ -1,9 +1,6 @@
 <?php
 session_start();
-/* if (isset($_SESSION['thong_bao'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['thong_bao'] . '</div>';
-    unset($_SESSION['thong_bao']);
-} */
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +63,7 @@ $resultBanChay = $conn->query($sqlBanChay);
             while ($rowBC = $resultBanChay->fetch_assoc()) {
                 echo '<div class="product-item">';
                 echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($rowBC['Ma_san_pham']) . '">';
-                echo '<img src="../admin/_images/' . htmlspecialchars($rowBC['Hinh_anh']) . '" alt="' . htmlspecialchars($rowBC['Ten_san_pham']) . '"><br>';
+                echo '<img src="images/' . htmlspecialchars($rowBC['Hinh_anh']) . '" alt="' . htmlspecialchars($rowBC['Ten_san_pham']) . '"><br>';
                 echo '<strong>' . htmlspecialchars($rowBC['Ten_san_pham']) . '</strong>';
                 echo '</a><br>';
                 echo '<span>Giá: ' . number_format($rowBC['Don_gia'], 0, ',', '.') . ' VND</span><br>';
@@ -95,11 +92,16 @@ $resultBanChay = $conn->query($sqlBanChay);
                         while($row = $result->fetch_assoc()) {
                             echo '<div class="product-item">';
                             echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($row['Ma_san_pham']) . '">';
-                            echo '<img src="../admin/_images/' . htmlspecialchars($row['Hinh_anh']) . '" alt="' . htmlspecialchars($row['Ten_san_pham']) . '"><br>';
+                            echo '<img src="images/' . htmlspecialchars($row['Hinh_anh']) . '" alt="' . htmlspecialchars($row['Ten_san_pham']) . '"><br>';
                             echo '<strong>' . htmlspecialchars($row['Ten_san_pham']) . '</strong>';
                             echo '</a><br>';
                             echo '<span>Giá: ' . number_format($row['Don_gia'], 0, ',', '.') . ' VND</span><br>';
-                            echo '<span>Số lượng: ' . htmlspecialchars($row['So_luong']) . '</span><br>';
+                            $so_luong = (int)$row['So_luong'];
+                            if ($so_luong < 10) {
+                                echo '<span style="color:red;">Số lượng: ' . $so_luong . '</span><br>';
+                            } else {
+                                echo '<span>Số lượng: ' . $so_luong . '</span><br>';
+                            }
                             echo '<p>' . htmlspecialchars(substr($row['Mo_ta'], 0, 60)) . '...</p>';
                             echo '<button onclick="themVaoGio(\'' . $row['Ma_san_pham'] . '\')" class="btn btn-primary">Thêm vào giỏ hàng</button>';                            echo '</div>';
                         }
@@ -143,6 +145,6 @@ $resultBanChay = $conn->query($sqlBanChay);
     ?>
 </body>
 
-<script src="./java/gio_hang.js"></script>
+<script src="./js/gio_hang.js"></script>
 
 </html>

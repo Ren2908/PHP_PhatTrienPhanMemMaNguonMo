@@ -44,29 +44,30 @@ $chi_tiet = mysqli_query($conn, $sql_ct);
 
 // Chuyển đổi trạng thái
 if ($don_hang['Trang_thai'] == 0) {
-    $trang_thai_text = 'Chờ xác nhận';
-    $trang_thai_class = 'badge bg-warning';
+    $trang_thai_text = 'Chờ Xác Nhận';
+    $trang_thai_class = 'badge bg-warning'; 
 } 
 else if ($don_hang['Trang_thai'] == 1) {
-    $trang_thai_text = 'Đã xác nhận';
-    $trang_thai_class = 'badge bg-info';
+    $trang_thai_text = 'Đã Xác Nhận';
+    $trang_thai_class = 'badge bg-primary'; 
 } 
 else if ($don_hang['Trang_thai'] == 2) {
-    $trang_thai_text = 'Đang giao';
-    $trang_thai_class = 'badge bg-primary';
+    $trang_thai_text = 'Đang Giao';
+    $trang_thai_class = 'badge bg-info'; 
 } 
 else if ($don_hang['Trang_thai'] == 3) {
-    $trang_thai_text = 'Đã giao';
-    $trang_thai_class = 'badge bg-success';
+    $trang_thai_text = 'Hoàn Thành';
+    $trang_thai_class = 'badge bg-success'; 
 } 
 else if ($don_hang['Trang_thai'] == 4) {
-    $trang_thai_text = 'Đã hủy';
-    $trang_thai_class = 'badge bg-danger';
+    $trang_thai_text = 'Đã Hủy';
+    $trang_thai_class = 'badge bg-danger'; 
 } 
 else {
     $trang_thai_text = 'Không xác định';
-    $trang_thai_class = 'badge bg-secondary';
+    $trang_thai_class = 'badge bg-secondary'; 
 }
+
 ?>
 
 <div class="container mt-4">
@@ -112,7 +113,7 @@ else {
             ?>
             <tr>
                 <td><?= $row['Ten_san_pham'] ?></td>
-                <td><img src="../admin/_images/<?= $row['Hinh_anh'] ?>" width="80"></td>
+                <td><img src="images/<?= $row['Hinh_anh'] ?>" width="80"></td>
                 <td><?= number_format($row['Don_gia'],0,',','.') ?> VND</td>
                 <td><?= $row['So_luong'] ?></td>
                 <td><?= number_format($subtotal,0,',','.') ?> VND</td>
@@ -125,6 +126,7 @@ else {
                 <td><strong><?= number_format($don_hang['Tong_tien'],0,',','.') ?> VND</strong></td>
             </tr>
         </tfoot>
+
     </table>
 </div>
 

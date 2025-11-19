@@ -43,7 +43,7 @@ if (isset($_GET['ma_san_pham'])) {
             <div id="product-detail">
                 <div class="detail-container">
                     <div class="detail-image">
-                        <img src="../admin/_images/<?php echo $row['Hinh_anh']; ?>"
+                        <img src="images/<?php echo $row['Hinh_anh']; ?>"
                             alt="<?php echo $row['Ten_san_pham']; ?>">
                     </div>
 
@@ -89,7 +89,7 @@ if (isset($_GET['ma_san_pham'])) {
                     while ($rowCL = $resultCungLoai->fetch_assoc()) {
                         echo '<div class="product-item">';
                         echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($rowCL['Ma_san_pham']) . '">';
-                        echo '<img src="../admin/_images/' . htmlspecialchars($rowCL['Hinh_anh']) . '" alt="' . htmlspecialchars($rowCL['Ten_san_pham']) . '"><br>';
+                        echo '<img src="images/' . htmlspecialchars($rowCL['Hinh_anh']) . '" alt="' . htmlspecialchars($rowCL['Ten_san_pham']) . '"><br>';
                         echo '<strong>' . htmlspecialchars($rowCL['Ten_san_pham']) . '</strong>';
                         echo '</a><br>';
                         echo '<span>Giá: ' . number_format($rowCL['Don_gia'], 0, ',', '.') . ' VND</span><br>';
@@ -110,4 +110,4 @@ if (isset($_GET['ma_san_pham'])) {
 <?php
 include('includes/footer.html');
 ?>
-<script src="./java/gio_hang.js"></script>
+<script src="./js/gio_hang.js"></script>

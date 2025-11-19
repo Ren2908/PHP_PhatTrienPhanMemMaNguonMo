@@ -4,33 +4,28 @@ session_start();
 include('includes/ket_noi.php');
 include('includes/header.php');
 
-// Kiểm tra đăng nhập
-if (!isset($_SESSION['ten_dang_nhap'])) {
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
 
-$ten_dang_nhap = $_SESSION['ten_dang_nhap'];
+$username = $_SESSION['username']; 
 $message = '';
 
-// Xử lý form khi submit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mat_khau_cu = $_POST['mat_khau_cu'];
     $mat_khau_moi = $_POST['mat_khau_moi'];
     $xac_nhan_mk = $_POST['xac_nhan_mk'];
 
-    // Lấy mật khẩu hiện tại từ database
-    $sql = "SELECT Mat_khau FROM tai_khoan WHERE Ten_dang_nhap='$ten_dang_nhap'";
+    $sql = "SELECT Mat_khau FROM tai_khoan WHERE Ten_dang_nhap='$username'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
 
     if ($row) {
-        // Kiểm tra mật khẩu cũ
         if (password_verify($mat_khau_cu, $row['Mat_khau'])) {
-            // Kiểm tra mật khẩu mới và xác nhận
             if ($mat_khau_moi === $xac_nhan_mk) {
                 $mat_khau_moi_hash = password_hash($mat_khau_moi, PASSWORD_DEFAULT);
-                $sql_update = "UPDATE tai_khoan SET Mat_khau='$mat_khau_moi_hash' WHERE Ten_dang_nhap='$ten_dang_nhap'";
+                $sql_update = "UPDATE tai_khoan SET Mat_khau='$mat_khau_moi_hash' WHERE Ten_dang_nhap='$username'";
                 
                 if (mysqli_query($conn, $sql_update)) {
                     $message = "<div class='alert alert-success'>Đổi mật khẩu thành công!</div>";
@@ -69,5 +64,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <?php
-include('includes/footer.php');
+include('includes/footer.html');
 ?>
