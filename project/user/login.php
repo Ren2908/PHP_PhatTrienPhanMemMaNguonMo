@@ -2,7 +2,7 @@
 session_start();
 include_once('includes/ket_noi.php');
 $page_title = 'Register';
-include('includes/header.php');
+include ('includes/header.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 1. Lấy dữ liệu từ form
