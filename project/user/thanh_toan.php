@@ -24,7 +24,7 @@ $ma_hoa_don = "HD" . (time() % 100000);
 $ds_maSP = "'" . implode("','", $danh_sach_san_pham) . "'";
 
 $query_SP = "
-    SELECT g.ma_san_pham, g.so_luong, s.Don_gia, s.So_luong AS So_luong_kho
+    SELECT g.ma_san_pham,s.ten_san_pham, g.so_luong, s.Don_gia, s.So_luong AS So_luong_kho
     FROM gio_hang g
     JOIN san_pham s ON g.ma_san_pham = s.Ma_san_pham
     WHERE g.ma_khach_hang = '$ma_khach_hang' 
@@ -40,7 +40,8 @@ $tong_tien = 0;
 while ($row = mysqli_fetch_assoc($resultSP)) {
 
     if ($row['so_luong'] > $row['So_luong_kho']) {
-        echo "❌ Sản phẩm " . $row['ma_san_pham'] . " không đủ số lượng trong kho!";
+    echo "Sản phẩm " . $row['ten_san_pham'] . " không đủ với yêu cầu mua sắm của bạn vui lòng liên hệ chủ cửa hàng";
+
         exit;
     }
 
@@ -52,11 +53,11 @@ while ($row = mysqli_fetch_assoc($resultSP)) {
 // 6. Thêm vào bảng hóa đơn
 $query_HD = "
     INSERT INTO hoa_don (Ma_hoa_don, Ma_khach_hang, Ngay_tao, Tong_tien, Trang_thai, Loai_don_hang)
-    VALUES ('$ma_hoa_don', '$ma_khach_hang', NOW(), '$tong_tien', 1, 0)
+    VALUES ('$ma_hoa_don', '$ma_khach_hang', NOW(), '$tong_tien', 0, 1)
 ";
 
 if (!mysqli_query($conn, $query_HD)) {
-    echo "❌ Lỗi tạo hóa đơn: " . mysqli_error($conn);
+    echo "Lỗi tạo hóa đơn: " . mysqli_error($conn);
     exit;
 }
 
@@ -89,6 +90,11 @@ foreach ($chi_tiet as $item) {
     mysqli_query($conn, $query_Xoa);
 }
 
-echo "<h2>✅ Đặt hàng thành công!</h2>";
-echo "Mã hóa đơn: <strong>$ma_hoa_don</strong>";
+
+
+echo "ĐẶT HÀNG THÀNH CÔNG !.
+     Mã hóa đơn của bạn là : $ma_hoa_don.
+     Vui lòng kiểm tra trong giò hàng để xem thông tin chi tiết
+";
+
 ?>

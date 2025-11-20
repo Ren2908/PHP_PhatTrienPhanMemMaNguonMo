@@ -12,19 +12,19 @@ function themVaoGio(maSanPham) {
 
         if (xhr.status == 200) {
             if (xhr.responseText.includes('Chưa đăng nhập')) {
-                alert('⚠️ Vui lòng đăng nhập!');
+                alert(' Vui lòng đăng nhập!');
                 window.location.href = 'login.php';
             } else {
-                alert('✅ Đã thêm vào giỏ hàng!');
+                alert(' Đã thêm vào giỏ hàng!');
             }
         } else {
-            alert('❌ Có lỗi xảy ra!');
+            alert('Có lỗi xảy ra!');
         }
     };
 
     xhr.onerror = function () {
         console.log('Lỗi kết nối');
-        alert('❌ Không thể kết nối!');
+        alert(' Không thể kết nối!');
     };
 
     xhr.send();
@@ -38,7 +38,7 @@ function xoaKhoiGio(maSanPham) {
 
         xhr.onload = function () {
             if (xhr.status == 200) {
-                alert('✅ Đã xóa khỏi giỏ hàng!');
+                alert(' Đã xóa khỏi giỏ hàng!');
                 location.reload(); // Tải lại trang
             }
         };
@@ -47,7 +47,7 @@ function xoaKhoiGio(maSanPham) {
     }
 }
 
-// Hàm cập nhật số lượng bằng AJAX
+// Hàm cập nhật số lượng 
 function capNhatSoLuong(maSanPham) {
     var soLuong = document.getElementById('soluong_' + maSanPham).value;
 
@@ -62,10 +62,10 @@ function capNhatSoLuong(maSanPham) {
 
     xhr.onload = function () {
         if (xhr.status == 200) {
-            alert('✅ Đã cập nhật số lượng!');
+            alert(' Đã cập nhật số lượng!');
             location.reload();
         } else {
-            alert('❌ Có lỗi khi cập nhật!');
+            alert(' Có lỗi khi cập nhật!');
         }
     };
 
@@ -76,14 +76,13 @@ function capNhatSoLuong(maSanPham) {
 function datHang() {
     var checkboxes = document.querySelectorAll('input[name="chon_san_pham[]"]:checked');
 
-    console.log('Số sản phẩm được chọn:', checkboxes.length); // Debug
 
     if (checkboxes.length === 0) {
-        alert('⚠️ Vui lòng chọn ít nhất 1 sản phẩm để thanh toán!');
+        alert(' Vui lòng chọn sản phầm mà bạn muốn thanh toán');
         return;
     }
 
-    if (!confirm('Bạn có chắc muốn đặt ' + checkboxes.length + ' sản phẩm này?')) {
+    if (!confirm('Bạn có chắc lÀ muốn đặt ' + checkboxes.length + ' sản phẩm này không?')) {
         return;
     }
 
@@ -97,21 +96,21 @@ function datHang() {
 
         if (xhr.status == 200) {
             if (xhr.responseText.includes('Chưa đăng nhập')) {
-                alert('⚠️ Vui lòng đăng nhập!');
+                alert(' Vui lòng đăng nhập!');
                 window.location.href = 'login.php';
             } else if (xhr.responseText.includes('Vui lòng chọn')) {
-                alert('⚠️ ' + xhr.responseText);
+                alert(' ' + xhr.responseText);
             } else if (xhr.responseText.includes('Đặt hàng thành công')) {
-                alert('✅ ' + xhr.responseText);
+                alert(' ' + xhr.responseText);
                 location.reload();
             } else {
-                alert('❌ Có lỗi xảy ra: ' + xhr.responseText);
+                alert(xhr.responseText);
             }
         }
     };
 
     xhr.onerror = function () {
-        alert('❌ Không thể kết nối!');
+        alert(' Không thể kết nối!');
     };
 
     xhr.send(formData);

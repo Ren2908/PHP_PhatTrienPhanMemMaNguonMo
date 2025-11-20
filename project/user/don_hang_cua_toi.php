@@ -38,34 +38,35 @@ $result = mysqli_query($conn, $sql);
         <tbody>
 
             <?php 
-        while ($row = mysqli_fetch_array($result)):
+       while ($row = mysqli_fetch_array($result)):
 
-            // Chuyển trạng thái
-            if ($row['Trang_thai'] == 0) {
-                $trang_thai_text = "Chờ xác nhận";
-                $trang_thai_class = "badge bg-warning";
-            } 
-            else if ($row['Trang_thai'] == 1) {
-                $trang_thai_text = "Đã xác nhận";
-                $trang_thai_class = "badge bg-info";
-            } 
-            else if ($row['Trang_thai'] == 2) {
-                $trang_thai_text = "Đang giao";
-                $trang_thai_class = "badge bg-primary";
-            } 
-            else if ($row['Trang_thai'] == 3) {
-                $trang_thai_text = "Đã giao";
-                $trang_thai_class = "badge bg-success";
-            } 
-            else if ($row['Trang_thai'] == 4) {
-                $trang_thai_text = "Đã hủy";
-                $trang_thai_class = "badge bg-danger";
-            } 
-            else {
-                $trang_thai_text = "Không xác định";
-                $trang_thai_class = "badge bg-secondary";
-            }
-        ?>
+                // Chuyển trạng thái
+                if ($row['Trang_thai'] == 0) {
+                    $trang_thai_text = "Chờ Xác Nhận";
+                    $trang_thai_class = "badge bg-warning"; 
+                } 
+                else if ($row['Trang_thai'] == 1) {
+                    $trang_thai_text = "Đã Xác Nhận";
+                    $trang_thai_class = "badge bg-primary"; 
+                } 
+                else if ($row['Trang_thai'] == 2) {
+                    $trang_thai_text = "Đang Giao Cho Vận Chuyển";
+                    $trang_thai_class = "badge bg-info"; 
+                }  
+                else if ($row['Trang_thai'] == 3) {
+                    $trang_thai_text = "Đã Hoàn Thành";
+                    $trang_thai_class = "badge bg-success"; 
+                }  
+                else if ($row['Trang_thai'] == 4) {
+                    $trang_thai_text = "Đã Hủy";
+                    $trang_thai_class = "badge bg-danger"; 
+                } 
+                else {
+                    $trang_thai_text = "Không xác định";
+                    $trang_thai_class = "badge bg-secondary"; 
+                }
+            ?>
+
 
             <tr>
                 <td><?= $row['Ma_hoa_don'] ?></td>
@@ -76,6 +77,12 @@ $result = mysqli_query($conn, $sql);
                     <a href="chi_tiet_don_hang.php?ma=<?= $row['Ma_hoa_don'] ?>" class="btn btn-sm btn-primary">
                         Xem chi tiết
                     </a>
+                    <?php if ($row['Trang_thai'] == 1 || $row['Trang_thai'] == 0): ?>
+                    <a href="huy_don.php?ma=<?= $row['Ma_hoa_don'] ?>" class="btn btn-sm btn-danger"
+                        onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?');">
+                        Hủy đơn
+                    </a>
+                    <?php endif; ?>
                 </td>
             </tr>
 
