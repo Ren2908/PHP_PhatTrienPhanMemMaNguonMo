@@ -58,7 +58,7 @@ $result = mysqli_query($conn, $query_GioHang);
                     <td><?= $row['Ten_san_pham'] ?></td>
 
                     <td>
-                        <img src="images/<?= $row['Hinh_anh'] ?>" width="80">
+                        <img src="../admin/_images/<?= $row['Hinh_anh'] ?>" width="80">
                     </td>
 
                     <td><?= number_format($row['Don_gia'], 0, ',', '.') ?> VND</td>
@@ -114,4 +114,4 @@ $result = mysqli_query($conn, $query_GioHang);
 </div>
 
 <?php include('includes/footer.html'); ?>
-<script src="./js/gio_hang.js"></script>
+<script src="./java/gio_hang.js"></script>

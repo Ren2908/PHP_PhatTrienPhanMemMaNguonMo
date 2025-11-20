@@ -6,8 +6,8 @@
         <?php echo $page_title; ?>
 
     </title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="css/thong_tin.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="includes/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="includes/thong_tin.css" type="text/css" media="screen" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -23,7 +23,7 @@
         <div class="header-container">
             <!-- Logo và tên cửa hàng -->
             <div class="logo-title">
-                <a href="index.php"><img src="images/logo.jpg" alt="Store Logo" class="logo" /></a>
+                <a href="index.php"><img src="includes/image_menu/logo.jpg" alt="Store Logo" class="logo" /></a>
                 <div class="title">
                     <h1>3TL Store</h1>
                     <h2>Uy Tín Tạo Niềm Tin</h2>

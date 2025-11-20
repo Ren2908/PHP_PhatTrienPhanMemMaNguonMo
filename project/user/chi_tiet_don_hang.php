@@ -113,7 +113,7 @@ else {
             ?>
             <tr>
                 <td><?= $row['Ten_san_pham'] ?></td>
-                <td><img src="images/<?= $row['Hinh_anh'] ?>" width="80"></td>
+                <td><img src="../admin/_images/<?= $row['Hinh_anh'] ?>" width="80"></td>
                 <td><?= number_format($row['Don_gia'],0,',','.') ?> VND</td>
                 <td><?= $row['So_luong'] ?></td>
                 <td><?= number_format($subtotal,0,',','.') ?> VND</td>

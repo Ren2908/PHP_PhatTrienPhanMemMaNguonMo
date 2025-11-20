@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = mysqli_fetch_assoc($result);
 
     // 3. Kiểm tra mật khẩu
-    if ($user && ($password === $user["Mat_khau"]) && ($user["Ma_khach_hang"] !== NULL)) {
+    if ($user && password_verify($password, $user["Mat_khau"])) {
         // Lưu thông tin vào session
         $_SESSION["username"] = $user["Ten_dang_nhap"];
         $_SESSION["ma_quyen"] = $user["Ma_quyen"];
