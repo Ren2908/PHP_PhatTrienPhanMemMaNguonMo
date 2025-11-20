@@ -124,7 +124,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                             <td><?php echo $row['Ma_hoa_don']; ?></td>
                             <td><?php echo $row['Ma_khach_hang']; ?></td>
                             <?php if ($row['Ma_nhan_vien'] == null): ?>
-                                <td>Được đặt online</td>;
+                                <td class="text-success">Được đặt online</td>
                             <?php else: ?>
                                 <td><?php echo $row['Ma_nhan_vien']; ?></td>
                             <?php endif; ?>
@@ -152,20 +152,18 @@ $total_pages = ceil($total_rows / $rows_per_page);
                             ?>
                             <td>
                                 <a href="index_admin.php?page=list_bill_detail&id=<?php echo $row['Ma_hoa_don']; ?>" class="btn btn-sm btn-warning">Chi tiết</a>
-                                <?php if (isset($_SESSION['ma_quyen']) && $_SESSION['ma_quyen'] == 'Q1'): ?>
+                                <?php if (isset($_SESSION['ma_quyen']) && $_SESSION['ma_quyen'] == 'Q1' && $row['Trang_thai'] != 3 && $row['Trang_thai'] != 4): ?>
                                     <a href="index_admin.php?page=list_bill&Ma_hoa_don=<?php echo $row['Ma_hoa_don']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá hoá đơn này?')">Xoá</a>
                                     <form method="POST" action="index_admin.php?page=list_bill" style="display:inline-block;">
                                         <input type="hidden" name="Ma_hoa_don" value="<?php echo $row['Ma_hoa_don']; ?>">
 
                                         <select name="Trang_thai" class="form-control form-control-sm"
                                             onchange="this.form.submit()">
-
                                             <option value="0" <?php echo $row['Trang_thai'] == 0 ? 'selected' : ''; ?>>Chờ xác nhận</option>
                                             <option value="1" <?php echo $row['Trang_thai'] == 1 ? 'selected' : ''; ?>>Đã xác nhận</option>
                                             <option value="2" <?php echo $row['Trang_thai'] == 2 ? 'selected' : ''; ?>>Đã giao cho vận chuyển</option>
                                             <option value="3" <?php echo $row['Trang_thai'] == 3 ? 'selected' : ''; ?>>Đã hoàn thành</option>
                                             <option value="4" <?php echo $row['Trang_thai'] == 4 ? 'selected' : ''; ?>>Đã huỷ</option>
-
                                         </select>
                                     </form>
                                 <?php endif; ?>
