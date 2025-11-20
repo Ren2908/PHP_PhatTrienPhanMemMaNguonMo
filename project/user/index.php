@@ -13,68 +13,67 @@ session_start();
 <body>
 
     <?php
-$page_title = 'Danh sách điện thoại';
-include('includes/header.php');
-include('includes/ket_noi.php');
+    $page_title = 'Danh sách điện thoại';
+    include('includes/header.php');
+    include('includes/ket_noi.php');
 
-// ===========================================
-// PHÂN TRANG
-// ===========================================
-$rowsPerPage = 8;
+    // ===========================================
+    // PHÂN TRANG
+    // ===========================================
+    $rowsPerPage = 8;
 
-$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($currentPage < 1) $currentPage = 1;
+    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    if ($currentPage < 1) $currentPage = 1;
 
-$offset = ($currentPage - 1) * $rowsPerPage;
+    $offset = ($currentPage - 1) * $rowsPerPage;
 
-// ===========================================
-// XỬ LÝ TÌM KIẾM
-// ===========================================
-$tukhoa = isset($_GET['tukhoa']) ? trim($_GET['tukhoa']) : "";
+    // ===========================================
+    // XỬ LÝ TÌM KIẾM
+    // ===========================================
+    $tukhoa = isset($_GET['tukhoa']) ? trim($_GET['tukhoa']) : "";
 
-if ($tukhoa !== "") {
+    if ($tukhoa !== "") {
 
-    // Đếm tổng số sản phẩm tìm được
-    $sqlCount = "
+        // Đếm tổng số sản phẩm tìm được
+        $sqlCount = "
         SELECT COUNT(*) AS total 
         FROM san_pham 
         WHERE Ten_san_pham LIKE '%$tukhoa%'
     ";
-    $resultCount = $conn->query($sqlCount);
-    $numRows = $resultCount->fetch_assoc()['total'];
+        $resultCount = $conn->query($sqlCount);
+        $numRows = $resultCount->fetch_assoc()['total'];
 
-    $maxPage = ceil($numRows / $rowsPerPage);
+        $maxPage = ceil($numRows / $rowsPerPage);
 
-    // Lấy sản phẩm theo từ khóa
-    $sql = "
+        // Lấy sản phẩm theo từ khóa
+        $sql = "
         SELECT Ma_san_pham, Ten_san_pham, So_luong, Don_gia, Mo_ta, Hinh_anh
         FROM san_pham
         WHERE Ten_san_pham LIKE '%$tukhoa%'
         LIMIT $offset, $rowsPerPage
     ";
+    } else {
 
-} else {
+        // Không tìm kiếm → phân trang bình thường
+        $sqlCount = "SELECT COUNT(*) AS total FROM san_pham";
+        $resultCount = $conn->query($sqlCount);
+        $numRows = $resultCount->fetch_assoc()['total'];
 
-    // Không tìm kiếm → phân trang bình thường
-    $sqlCount = "SELECT COUNT(*) AS total FROM san_pham";
-    $resultCount = $conn->query($sqlCount);
-    $numRows = $resultCount->fetch_assoc()['total'];
+        $maxPage = ceil($numRows / $rowsPerPage);
 
-    $maxPage = ceil($numRows / $rowsPerPage);
-
-    $sql = "
+        $sql = "
         SELECT Ma_san_pham, Ten_san_pham, So_luong, Don_gia, Mo_ta, Hinh_anh
         FROM san_pham
         LIMIT $offset, $rowsPerPage
     ";
-}
+    }
 
-$result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-// ===========================================
-// LẤY DANH SÁCH SẢN PHẨM BÁN CHẠY
-// ===========================================
-$sqlBanChay = "
+    // ===========================================
+    // LẤY DANH SÁCH SẢN PHẨM BÁN CHẠY
+    // ===========================================
+    $sqlBanChay = "
 SELECT sp.Ma_san_pham, sp.Ten_san_pham, sp.Hinh_anh, sp.Don_gia, 
 SUM(ct.So_luong) AS Tong_da_ban
 FROM san_pham sp
@@ -83,8 +82,8 @@ GROUP BY sp.Ma_san_pham, sp.Ten_san_pham, sp.Hinh_anh, sp.Don_gia
 ORDER BY Tong_da_ban DESC
 LIMIT 10
 ";
-$resultBanChay = $conn->query($sqlBanChay);
-?>
+    $resultBanChay = $conn->query($sqlBanChay);
+    ?>
 
 
 
@@ -93,24 +92,24 @@ $resultBanChay = $conn->query($sqlBanChay);
     <div id="best-seller" class="best-seller-box">
         <h2>Sản phẩm bán chạy</h2>
         <?php
-    if ($resultBanChay && $resultBanChay->num_rows > 0) {
-        echo '<div class="product-list">';
-        while ($rowBC = $resultBanChay->fetch_assoc()) {
-            echo '<div class="product-item">';
-            echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($rowBC['Ma_san_pham']) . '">';
-            echo '<img src="../admin/_images/' . htmlspecialchars($rowBC['Hinh_anh']) . '" alt=""><br>';
-            echo '<strong>' . htmlspecialchars($rowBC['Ten_san_pham']) . '</strong>';
-            echo '</a><br>';
-            echo '<span>Giá: ' . number_format($rowBC['Don_gia']) . ' VND</span><br>';
-            echo '<span>Đã bán: ' . htmlspecialchars($rowBC['Tong_da_ban']) . '</span><br>';
-            echo '<button class="btn btn-primary btn-sm" onclick="themVaoGio(\'' . $rowBC['Ma_san_pham'] . '\')">Thêm vào giỏ hàng</button>';
+        if ($resultBanChay && $resultBanChay->num_rows > 0) {
+            echo '<div class="product-list">';
+            while ($rowBC = $resultBanChay->fetch_assoc()) {
+                echo '<div class="product-item">';
+                echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($rowBC['Ma_san_pham']) . '">';
+                echo '<img src="../admin/_images/' . htmlspecialchars($rowBC['Hinh_anh']) . '" alt=""><br>';
+                echo '<strong>' . htmlspecialchars($rowBC['Ten_san_pham']) . '</strong>';
+                echo '</a><br>';
+                echo '<span>Giá: ' . number_format($rowBC['Don_gia']) . ' VND</span><br>';
+                echo '<span>Đã bán: ' . htmlspecialchars($rowBC['Tong_da_ban']) . '</span><br>';
+                echo '<button class="btn btn-primary btn-sm" onclick="themVaoGio(\'' . $rowBC['Ma_san_pham'] . '\')">Thêm vào giỏ hàng</button>';
+                echo '</div>';
+            }
             echo '</div>';
+        } else {
+            echo '<p>Không có sản phẩm nào.</p>';
         }
-        echo '</div>';
-    } else {
-        echo '<p>Không có sản phẩm nào.</p>';
-    }
-    ?>
+        ?>
     </div>
     <!-- Form tìm kiếm -->
     <div class="d-flex justify-content-end mb-6">
@@ -133,51 +132,51 @@ $resultBanChay = $conn->query($sqlBanChay);
             <div id="main-content">
                 <div id="product-list">
                     <?php
-                if ($result && $result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<div class="product-item">';
-                        echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($row['Ma_san_pham']) . '">';
-                        echo '<img src="../admin/_images/' . htmlspecialchars($row['Hinh_anh']) . '"><br>';
-                        echo '<strong>' . htmlspecialchars($row['Ten_san_pham']) . '</strong>';
-                        echo '</a><br>';
-                        echo '<span>Giá: ' . number_format($row['Don_gia']) . ' VND</span><br>';
+                    if ($result && $result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<div class="product-item">';
+                            echo '<a href="chi_tiet_san_pham.php?ma_san_pham=' . urlencode($row['Ma_san_pham']) . '">';
+                            echo '<img src="../admin/_images/' . htmlspecialchars($row['Hinh_anh']) . '"><br>';
+                            echo '<strong>' . htmlspecialchars($row['Ten_san_pham']) . '</strong>';
+                            echo '</a><br>';
+                            echo '<span>Giá: ' . number_format($row['Don_gia']) . ' VND</span><br>';
 
-                        $so_luong = (int)$row['So_luong'];
-                        echo $so_luong < 10 
-                            ? "<span style='color:red;'>Số lượng: $so_luong</span><br>"
-                            : "<span>Số lượng: $so_luong</span><br>";
+                            $so_luong = (int)$row['So_luong'];
+                            echo $so_luong < 10
+                                ? "<span style='color:red;'>Số lượng: $so_luong</span><br>"
+                                : "<span>Số lượng: $so_luong</span><br>";
 
-                        echo '<p>' . htmlspecialchars(substr($row['Mo_ta'], 0, 60)) . '...</p>';
-                        echo '<button class="btn btn-primary" onclick="themVaoGio(\'' . $row['Ma_san_pham'] . '\')">Thêm vào giỏ hàng</button>';
-                        echo '</div>';
+                            echo '<p>' . htmlspecialchars(substr($row['Mo_ta'], 0, 60)) . '...</p>';
+                            echo '<button class="btn btn-primary" onclick="themVaoGio(\'' . $row['Ma_san_pham'] . '\')">Thêm vào giỏ hàng</button>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo "<p>Không tìm thấy sản phẩm nào.</p>";
                     }
-                } else {
-                    echo "<p>Không tìm thấy sản phẩm nào.</p>";
-                }
-                ?>
+                    ?>
                 </div>
 
                 <!-- PHÂN TRANG -->
                 <div class="pagination">
                     <?php
-                $param = $tukhoa != "" ? "&tukhoa=$tukhoa" : "";
+                    $param = $tukhoa != "" ? "&tukhoa=$tukhoa" : "";
 
-                if ($currentPage > 1) {
-                    echo "<a href='?page=" . ($currentPage - 1) . "$param' class='page-btn'>« Back</a>";
-                }
-
-                for ($i = 1; $i <= $maxPage; $i++) {
-                    if ($i == $currentPage) {
-                        echo "<span class='page-current'>Trang $i</span>";
-                    } else {
-                        echo "<a href='?page=$i$param' class='page-link'>Trang $i</a>";
+                    if ($currentPage > 1) {
+                        echo "<a href='?page=" . ($currentPage - 1) . "$param' class='page-btn'>« Back</a>";
                     }
-                }
 
-                if ($currentPage < $maxPage) {
-                    echo "<a href='?page=" . ($currentPage + 1) . "$param' class='page-btn'>Next »</a>";
-                }
-                ?>
+                    for ($i = 1; $i <= $maxPage; $i++) {
+                        if ($i == $currentPage) {
+                            echo "<span class='page-current'>Trang $i</span>";
+                        } else {
+                            echo "<a href='?page=$i$param' class='page-link'>Trang $i</a>";
+                        }
+                    }
+
+                    if ($currentPage < $maxPage) {
+                        echo "<a href='?page=" . ($currentPage + 1) . "$param' class='page-btn'>Next »</a>";
+                    }
+                    ?>
                 </div>
 
             </div>
@@ -187,5 +186,10 @@ $resultBanChay = $conn->query($sqlBanChay);
     <?php include('includes/footer.html'); ?>
     <script src="./java/gio_hang.js"></script>
 </body>
+
+<<<<<<< HEAD=======<script src="./java/gio_hang.js">
+    </script>
+
+    >>>>>>> 748a919ad7659d8a9a642da09d3ed540e8ff9261
 
 </html>
