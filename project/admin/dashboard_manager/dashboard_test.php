@@ -132,12 +132,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 <!-- Content Row -->
 <h1 class="h3 mb-0 text-gray-800">Hoá đơn</h1>
 
-
-
-
-
-
-
 <div class="row">
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
@@ -197,7 +191,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
 </div>
 <div class="row">
-
     <!-- Chờ xác nhận (0) -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-2">
