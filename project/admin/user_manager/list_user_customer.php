@@ -96,7 +96,7 @@ $total_pages = ceil($total_rows / $rows_per_page);
                             <td><?php echo $row['Email']; ?></td>
                             <td>
                                 <a href="index_admin.php?page=edit_user_customer&id=<?php echo $row['Ma_khach_hang']; ?>" class="btn btn-sm btn-warning">Sửa</a>
-                                <a href="index_admin.php?page=list_user_customer&Ma_khach_hang=<?php echo $row['Ma_khach_hang']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này?')">Xoá</a>
+                                <!-- <a href="index_admin.php?page=list_user_customer&Ma_khach_hang=<?php echo $row['Ma_khach_hang']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá khách hàng này?')">Xoá</a> -->
                             </td>
                         </tr>
                     <?php
