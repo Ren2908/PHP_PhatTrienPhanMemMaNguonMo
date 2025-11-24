@@ -7,6 +7,25 @@ DROP DATABASE IF EXISTS CuaHangDienTu;
 CREATE DATABASE CuaHangDienTu;
 USE CuaHangDienTu;
 
+-- Màu sắc
+CREATE TABLE mau_sac (
+    Ma_mau VARCHAR(50) PRIMARY KEY,
+    Ten_mau VARCHAR(50) NOT NULL
+);
+
+-- Nguồn gốc xuất xứ
+CREATE TABLE xuat_xu (
+    Ma_xuat_xu VARCHAR(50) PRIMARY KEY,
+    Ten_xuat_xu VARCHAR(100) NOT NULL
+);
+
+-- Bảo hành
+CREATE TABLE bao_hanh (
+    Ma_bao_hanh VARCHAR(50) PRIMARY KEY,
+    Thoi_gian INT, -- tháng
+    Dieu_kien TEXT
+);
+
 -- ===============================
 -- Bảng nhà cung cấp
 -- ===============================
@@ -57,29 +76,64 @@ CREATE TABLE san_pham (
     Ma_san_pham VARCHAR(50) PRIMARY KEY,
     Ten_san_pham VARCHAR(500) NOT NULL,
     Ma_loai VARCHAR(50),
-    So_luong INT DEFAULT 0,
-    Don_gia DECIMAL(50,2) NOT NULL,
     Ma_nha_cung_cap VARCHAR(50),
+    Ma_mau VARCHAR(50),
+    Ma_xuat_xu VARCHAR(50),
+    Ma_bao_hanh VARCHAR(50),
+    Ma_khuyen_mai VARCHAR(50),
+    So_luong INT DEFAULT 0,
+    Don_gia DECIMAL(12,2) NOT NULL,
     Mo_ta TEXT,
+    Cau_hinh TEXT,                 -- thông tin đặc thù gộp chung
     Hinh_anh VARCHAR(255),
     Ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Trang_thai TINYINT(1) DEFAULT 1, -- 1: đang bán, 0: ngừng bán
     FOREIGN KEY (Ma_loai) REFERENCES loai_san_pham(Ma_loai)
         ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (Ma_nha_cung_cap) REFERENCES nha_cung_cap(Ma_nha_cung_cap)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (Ma_mau) REFERENCES mau_sac(Ma_mau)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (Ma_xuat_xu) REFERENCES xuat_xu(Ma_xuat_xu)
+        ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (Ma_bao_hanh) REFERENCES bao_hanh(Ma_bao_hanh)
+        ON DELETE SET NULL ON UPDATE CASCADE   
 );
 
+
+
+INSERT INTO mau_sac VALUES
+('M1', 'Đen'),
+('M2', 'Trắng'),
+('M3', 'Xanh'),
+('M4', 'Đỏ');
+
+INSERT INTO xuat_xu VALUES
+('X1', 'Hàn Quốc'),
+('X2', 'Mỹ'),
+('X3', 'Nhật Bản'),
+('X4', 'Trung Quốc');
+
+INSERT INTO bao_hanh VALUES
+('BH1', 12, 'Bảo hành chính hãng 1 năm'),
+('BH2', 24, 'Bảo hành chính hãng 2 năm'),
+('BH3', 6, 'Bảo hành 6 tháng'),
+('BH4', 36, 'Bảo hành 3 năm');
+
 INSERT INTO san_pham VALUES
-('SP1','Samsung Galaxy S23','L1',50,25000000,'NCC1','Điện thoại cao cấp Samsung','Samsung Galaxy S23.webp',NOW()),
-('SP2','iPhone 15','L1',30,30000000,'NCC2','Điện thoại Apple mới nhất','iPhone 15.jpg',NOW()),
-('SP3','Sony WH-5000XM5','L3',40,7000000,'NCC3','Tai nghe chống ồn Sony','Sony WH-1000XM5.png',NOW()),
-('SP4','MacBook Pro 16','L2',20,55000000,'NCC2','Laptop cao cấp Apple','MacBook Pro 16.jpg',NOW()),
-('SP5','Sony Bravia 55inch','L4',50,22000000,'NCC3','Tivi 4K Sony','Sony Bravia 55inch.webp',NOW()),
-('SP6','Xiaomi 13 Pro','L1',60,19000000,'NCC4','Điện thoại chụp ảnh đẹp','Xiaomi 13 Pro.jpg',NOW()),
-('SP7','Oppo Find X7','L1',45,25000000,'NCC5','Flagship Oppo hiệu năng cao','Oppo Find X7.webp',NOW()),
-('SP8','Dell XPS 13','L2',25,32000000,'NCC9','Laptop mỏng nhẹ, pin tốt','Dell XPS 13.jpg',NOW()),
-('SP9','Asus ROG Strix','L2',15,45000000,'NCC7','Laptop gaming mạnh mẽ','Asus ROG Strix.jpg',NOW()),
-('SP50','LG OLED 65inch','L4',12,37000000,'NCC6','Tivi OLED hiển thị cực nét','LG OLED 65inch.jpg',NOW());
+('SP1','Samsung Galaxy S23','L1','NCC1','M1','X1','BH1','KM1',50,25000000,'Điện thoại cao cấp Samsung',NULL,'Samsung Galaxy S23.webp',NOW(),1),
+('SP2','iPhone 15','L1','NCC2','M2','X2','BH2','KM2',30,30000000,'Điện thoại Apple mới nhất',NULL,'iPhone 15.jpg',NOW(),1),
+('SP3','Sony WH-5000XM5','L3','NCC3','M3','X3','BH3','KM3',40,7000000,'Tai nghe chống ồn Sony',NULL,'Sony WH-1000XM5.png',NOW(),1),
+('SP4','MacBook Pro 16','L2','NCC2','M2','X2','BH2','KM4',20,55000000,'Laptop cao cấp Apple',NULL,'MacBook Pro 16.jpg',NOW(),1),
+('SP5','Sony Bravia 55inch','L4','NCC3','M1','X3','BH4','KM5',50,22000000,'Tivi 4K Sony',NULL,'Sony Bravia 55inch.webp',NOW(),1),
+('SP6','Xiaomi 13 Pro','L1','NCC4','M4','X4','BH1','KM6',60,19000000,'Điện thoại chụp ảnh đẹp',NULL,'Xiaomi 13 Pro.jpg',NOW(),1),
+('SP7','Oppo Find X7','L1','NCC5','M1','X4','BH1','KM7',45,25000000,'Flagship Oppo hiệu năng cao',NULL,'Oppo Find X7.webp',NOW(),1),
+('SP8','Dell XPS 13','L2','NCC9','M2','X1','BH2','KM8',25,32000000,'Laptop mỏng nhẹ, pin tốt',NULL,'Dell XPS 13.jpg',NOW(),1),
+('SP9','Asus ROG Strix','L2','NCC7','M3','X3','BH2','KM9',15,45000000,'Laptop gaming mạnh mẽ',NULL,'Asus ROG Strix.jpg',NOW(),1),
+('SP10','LG OLED 65inch','L4','NCC6','M1','X4','BH4','KM10',12,37000000,'Tivi OLED hiển thị cực nét',NULL,'LG OLED 65inch.jpg',NOW(),1);
+
+
+
 
 -- ===============================
 -- Bảng khách hàng
@@ -161,7 +215,7 @@ INSERT INTO `chi_tiet_hoa_don` (`Ma_hoa_don`, `Ma_san_pham`, `So_luong`, `Don_gi
 ('HD3', 'SP7', 2, 25000000.00),
 ('HD3', 'SP8', 2, 32000000.00),
 ('HD4', 'SP1', 2, 25000000.00),
-('HD4', 'SP50', 2, 37000000.00),
+('HD4', 'SP10', 2, 37000000.00),
 ('HD4', 'SP2', 2, 30000000.00),
 ('HD5', 'SP4', 2, 55000000.00);
 CREATE TABLE quyen (
