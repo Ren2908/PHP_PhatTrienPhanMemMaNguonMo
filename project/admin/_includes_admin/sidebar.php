@@ -1,4 +1,6 @@
-     <a class="dropdown-item" href="../user/index.php">
+     <a class="text-success"
+         onclick="return confirm('Bạn có muốn về trang chủ không')"
+         href="../user/index.php">
          Về trang chủ shop
      </a>
      <?php if (isset($_SESSION['ma_quyen']) && $_SESSION['ma_quyen'] == 'Q1'): ?>
@@ -31,7 +33,6 @@
          <li><strong>Quản lý doanh thu</strong></li>
          <li><a href="index_admin.php?page=list_bill">Danh sách hoá đơn</a></li>
      <?php endif; ?>
-
 
      <li>
          <a href="../user/logout.php"
