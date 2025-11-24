@@ -39,7 +39,7 @@
     <div>
         <h1>404</h1>
         <p>Trang bạn tìm không tồn tại.</p>
-        <p><a href="index.php">Quay về trang chủ</a></p>
+        <p><a href="../user/index.php">Quay về trang chủ</a></p>
     </div>
 
 </body>

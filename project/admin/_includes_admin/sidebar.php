@@ -33,4 +33,10 @@
      <?php endif; ?>
 
 
-     <li><a href="../user/logout.php">Đăng xuất </a></li>
+     <li>
+         <a href="../user/logout.php"
+             class="text-danger"
+             onclick="return confirm('Bạn có chắc muốn đăng xuất không?');">
+             Đăng xuất
+         </a>
+     </li>
