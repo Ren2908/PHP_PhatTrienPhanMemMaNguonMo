@@ -80,7 +80,6 @@ CREATE TABLE san_pham (
     Ma_mau VARCHAR(50),
     Ma_xuat_xu VARCHAR(50),
     Ma_bao_hanh VARCHAR(50),
-    Ma_khuyen_mai VARCHAR(50),
     So_luong INT DEFAULT 0,
     Don_gia DECIMAL(12,2) NOT NULL,
     Mo_ta TEXT,
@@ -120,19 +119,59 @@ INSERT INTO bao_hanh VALUES
 ('BH3', 6, 'Bảo hành 6 tháng'),
 ('BH4', 36, 'Bảo hành 3 năm');
 
-INSERT INTO san_pham VALUES
-('SP1','Samsung Galaxy S23','L1','NCC1','M1','X1','BH1','KM1',50,25000000,'Điện thoại cao cấp Samsung',NULL,'Samsung Galaxy S23.webp',NOW(),1),
-('SP2','iPhone 15','L1','NCC2','M2','X2','BH2','KM2',30,30000000,'Điện thoại Apple mới nhất',NULL,'iPhone 15.jpg',NOW(),1),
-('SP3','Sony WH-5000XM5','L3','NCC3','M3','X3','BH3','KM3',40,7000000,'Tai nghe chống ồn Sony',NULL,'Sony WH-1000XM5.png',NOW(),1),
-('SP4','MacBook Pro 16','L2','NCC2','M2','X2','BH2','KM4',20,55000000,'Laptop cao cấp Apple',NULL,'MacBook Pro 16.jpg',NOW(),1),
-('SP5','Sony Bravia 55inch','L4','NCC3','M1','X3','BH4','KM5',50,22000000,'Tivi 4K Sony',NULL,'Sony Bravia 55inch.webp',NOW(),1),
-('SP6','Xiaomi 13 Pro','L1','NCC4','M4','X4','BH1','KM6',60,19000000,'Điện thoại chụp ảnh đẹp',NULL,'Xiaomi 13 Pro.jpg',NOW(),1),
-('SP7','Oppo Find X7','L1','NCC5','M1','X4','BH1','KM7',45,25000000,'Flagship Oppo hiệu năng cao',NULL,'Oppo Find X7.webp',NOW(),1),
-('SP8','Dell XPS 13','L2','NCC9','M2','X1','BH2','KM8',25,32000000,'Laptop mỏng nhẹ, pin tốt',NULL,'Dell XPS 13.jpg',NOW(),1),
-('SP9','Asus ROG Strix','L2','NCC7','M3','X3','BH2','KM9',15,45000000,'Laptop gaming mạnh mẽ',NULL,'Asus ROG Strix.jpg',NOW(),1),
-('SP10','LG OLED 65inch','L4','NCC6','M1','X4','BH4','KM10',12,37000000,'Tivi OLED hiển thị cực nét',NULL,'LG OLED 65inch.jpg',NOW(),1);
+INSERT INTO san_pham (
+    Ma_san_pham, Ten_san_pham, Ma_loai, Ma_nha_cung_cap, Ma_mau, Ma_xuat_xu, Ma_bao_hanh,
+    So_luong, Don_gia, Mo_ta, Cau_hinh, Hinh_anh, Ngay_tao, Trang_thai
+) VALUES
+('SP1','Samsung Galaxy S23','L1','NCC1','M1','X1','BH1',50,25000000,
+ 'Điện thoại cao cấp Samsung',
+ 'Màn hình 6.1\" AMOLED 120Hz; Snapdragon 8 Gen 2; RAM 8GB; ROM 256GB; Camera 50MP + 12MP + 10MP; Pin 3900mAh; Android 13',
+ 'Samsung Galaxy S23.webp',NOW(),1),
 
+('SP2','iPhone 15','L1','NCC2','M2','X2','BH2',30,30000000,
+ 'Điện thoại Apple mới nhất',
+ 'Màn hình 6.1\" Super Retina XDR; Chip Apple A16 Bionic; RAM 6GB; ROM 128GB; Camera 48MP; Pin 3349mAh; iOS 17',
+ 'iPhone 15.jpg',NOW(),1),
 
+('SP3','Sony WH-5000XM5','L3','NCC3','M3','X3','BH3',40,7000000,
+ 'Tai nghe chống ồn Sony',
+ 'Tai nghe chụp tai; Driver 30mm; Chống ồn ANC; Bluetooth 5.2; Pin 30 giờ; Sạc USB-C; Hỗ trợ LDAC',
+ 'Sony WH-1000XM5.png',NOW(),1),
+
+('SP4','MacBook Pro 16','L2','NCC2','M2','X2','BH2',20,55000000,
+ 'Laptop cao cấp Apple',
+ 'Màn hình 16\" Liquid Retina XDR; Apple M2 Pro; RAM 16GB; SSD 512GB; GPU 19-core; Pin 100Wh; macOS Ventura',
+ 'MacBook Pro 16.jpg',NOW(),1),
+
+('SP5','Sony Bravia 55inch','L4','NCC3','M1','X3','BH4',50,22000000,
+ 'Tivi 4K Sony',
+ 'TV 55\" 4K HDR; Công nghệ Triluminos Pro; Tần số quét 120Hz; Android TV; Dolby Vision & Atmos; 4 cổng HDMI',
+ 'Sony Bravia 55inch.webp',NOW(),1),
+
+('SP6','Xiaomi 13 Pro','L1','NCC4','M4','X4','BH1',60,19000000,
+ 'Điện thoại chụp ảnh đẹp',
+ 'Màn hình 6.73\" AMOLED 120Hz; Snapdragon 8 Gen 2; RAM 12GB; ROM 256GB; Camera Leica 50MP; Pin 4820mAh; Sạc 120W',
+ 'Xiaomi 13 Pro.jpg',NOW(),1),
+
+('SP7','Oppo Find X7','L1','NCC5','M1','X4','BH1',45,25000000,
+ 'Flagship Oppo hiệu năng cao',
+ 'Màn hình 6.78\" AMOLED 120Hz; MediaTek Dimensity 9300; RAM 12GB; ROM 256GB; Camera 50MP; Pin 5000mAh; Sạc 100W',
+ 'Oppo Find X7.webp',NOW(),1),
+
+('SP8','Dell XPS 13','L2','NCC9','M2','X1','BH2',25,32000000,
+ 'Laptop mỏng nhẹ, pin tốt',
+ 'Màn hình 13.4\" FHD+; Intel Core i7-1355U; RAM 16GB; SSD 512GB; Intel Iris Xe; Pin 52Wh; Windows 11',
+ 'Dell XPS 13.jpg',NOW(),1),
+
+('SP9','Asus ROG Strix','L2','NCC7','M3','X3','BH2',15,45000000,
+ 'Laptop gaming mạnh mẽ',
+ 'Màn hình 15.6\" QHD 165Hz; AMD Ryzen 9 7945HX; RAM 32GB; SSD 1TB; GPU RTX 4070; Bàn phím RGB; Windows 11',
+ 'Asus ROG Strix.jpg',NOW(),1),
+
+('SP10','LG OLED 65inch','L4','NCC6','M1','X4','BH4',12,37000000,
+ 'Tivi OLED hiển thị cực nét',
+ 'TV OLED 65\" 4K; Công nghệ OLED evo; Tần số 120Hz; WebOS; Dolby Vision IQ; Dolby Atmos; HDMI 2.1 x 4',
+ 'LG OLED 65inch.jpg',NOW(),1);
 
 
 -- ===============================

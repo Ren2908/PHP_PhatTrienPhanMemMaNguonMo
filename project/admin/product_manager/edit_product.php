@@ -9,6 +9,17 @@ $query_NCC_result = mysqli_query($conn, $query_NCC);
 $query_LSP = "SELECT * FROM loai_san_pham";
 $query_LSP_result = mysqli_query($conn, $query_LSP);
 
+// Lấy danh sách bảo hành
+$query_bh = "SELECT Ma_bao_hanh, Thoi_gian FROM bao_hanh";
+$result_bh = mysqli_query($conn, $query_bh);
+
+// Lấy danh sách màu sắc
+$query_ms = "SELECT Ma_mau, Ten_mau FROM mau_sac";
+$result_ms = mysqli_query($conn, $query_ms);
+
+// Lấy danh sách xuất xứ
+$query_xx = "SELECT Ma_xuat_xu, Ten_xuat_xu FROM xuat_xu";
+$result_xx = mysqli_query($conn, $query_xx);
 
 // Xử lý submit form
 if (isset($_POST['submit'])) {
@@ -18,6 +29,11 @@ if (isset($_POST['submit'])) {
     $gia = $_POST['Don_gia'];
     $ncc = $_POST['Ma_nha_cung_cap'];
     $mo_ta = $_POST['Mo_ta'];
+    $mau = $_POST['Ma_mau'];
+    $xuatxu = $_POST['Ma_xuat_xu'];
+    $baohanh = $_POST['Ma_bao_hanh'];
+    $trang_thai = $_POST['Trang_thai'];
+    $cau_hinh = $_POST['Cau_hinh'];
     // Xử lý ảnh (nếu có upload mới)
     $hinh_anh = '';
     if (isset($_FILES['Hinh_anh']) && $_FILES['Hinh_anh']['error'] == 0) {
@@ -49,16 +65,23 @@ if (isset($_POST['submit'])) {
         echo '<div class="alert alert-danger">Tên sản phẩm đã tồn tại! Mã SP: ' . $duplicate_result['Ma_san_pham'] . '</div>';
     } else {
         $query_update_detail = "
-    UPDATE san_pham 
-    SET 
-        Ten_san_pham = '$ten',
-        Ma_loai = '$loai',
-        So_luong = '$sl',
-        Don_gia = '$gia',
-        Ma_nha_cung_cap = '$ncc',
-        Mo_ta = '$mo_ta',
-        Hinh_anh = '$hinh_anh'
-    WHERE Ma_san_pham = '$id_detail' ";
+        UPDATE san_pham 
+        SET 
+            Ten_san_pham = '$ten',
+            Ma_loai = '$loai',
+            So_luong = '$sl',
+            Don_gia = '$gia',
+            Ma_nha_cung_cap = '$ncc',
+            Ma_mau = '$mau',
+            Ma_xuat_xu = '$xuatxu',
+            Ma_bao_hanh = '$baohanh',
+            Mo_ta = '$mo_ta',
+            Trang_thai = '$trang_thai',
+            Cau_hinh = '$cau_hinh',
+            Hinh_anh = '$hinh_anh'
+        WHERE Ma_san_pham = '$id_detail'
+        ";
+
 
         $result_update = mysqli_query($conn, $query_update_detail);
         if ($result_update) {
@@ -94,7 +117,7 @@ if (isset($_POST['submit'])) {
                 <label>Loại sản phẩm:</label>
                 <select name="Ma_loai" class="form-control" required>
                     <?php
-                    // mysqli_data_seek($query_LSP_result, 0);
+
                     while ($lsp = mysqli_fetch_assoc($query_LSP_result)):
                         $selected = ($lsp['Ma_loai'] == $sp['Ma_loai']) ? 'selected' : '';
                     ?>
@@ -108,7 +131,7 @@ if (isset($_POST['submit'])) {
                 <label>Nhà cung cấp:</label>
                 <select name="Ma_nha_cung_cap" class="form-control" required>
                     <?php
-                    // mysqli_data_seek($query_NCC_result, 0);
+
                     while ($ncc = mysqli_fetch_assoc($query_NCC_result)):
                         $selected = ($ncc['Ma_nha_cung_cap'] == $sp['Ma_nha_cung_cap']) ? 'selected' : '';
                     ?>
@@ -119,6 +142,47 @@ if (isset($_POST['submit'])) {
                 </select>
 
             </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Màu sắc:</label>
+                <select name="Ma_mau" class="form-control" required>
+                    <?php while ($ms = mysqli_fetch_assoc($result_ms)):
+                        $selected = ($ms['Ma_mau'] == $sp['Ma_mau']) ? 'selected' : '';
+                    ?>
+                        <option value="<?php echo $ms['Ma_mau']; ?>" <?php echo $selected; ?>>
+                            <?php echo $ms['Ten_mau']; ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label>Xuất xứ:</label>
+                <select name="Ma_xuat_xu" class="form-control" required>
+                    <?php while ($xx = mysqli_fetch_assoc($result_xx)):
+                        $selected = ($xx['Ma_xuat_xu'] == $sp['Ma_xuat_xu']) ? 'selected' : '';
+                    ?>
+                        <option value="<?php echo $xx['Ma_xuat_xu']; ?>" <?php echo $selected; ?>>
+                            <?php echo $xx['Ten_xuat_xu']; ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label>Bảo hành:</label>
+                <select name="Ma_bao_hanh" class="form-control" required>
+                    <?php while ($bh = mysqli_fetch_assoc($result_bh)):
+                        $selected = ($bh['Ma_bao_hanh'] == $sp['Ma_bao_hanh']) ? 'selected' : '';
+                    ?>
+                        <option value="<?php echo $bh['Ma_bao_hanh']; ?>" <?php echo $selected; ?>>
+                            <?php echo $bh['Thoi_gian']; ?> tháng
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
         </div>
 
         <div class="row mb-3">
@@ -131,6 +195,16 @@ if (isset($_POST['submit'])) {
                 <input type="number" name="Don_gia" class="form-control" value="<?php echo $sp['Don_gia'] ?>" step="any" required>
             </div>
             <div class="col-md-4">
+                <label>Trạng thái:</label>
+                <select name="Trang_thai" class="form-control" required>
+                    <option value="1" <?= ($sp['Trang_thai'] == 1 ? 'selected' : '') ?>>Đang bán</option>
+                    <option value="0" <?= ($sp['Trang_thai'] == 0 ? 'selected' : '') ?>>Ngừng bán</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
                 <label>Hình ảnh:</label>
                 <div class="row">
                     <div class="col"><input type="file" name="Hinh_anh" class="form-control" accept="image/*"></div>
@@ -146,12 +220,15 @@ if (isset($_POST['submit'])) {
                         ?>
                     </div>
                 </div>
-
             </div>
         </div>
-        <div class="mb-3">
+        <div class="row mb-3">
             <label>Mô tả:</label>
             <textarea name="Mo_ta" class="form-control" rows="3"><?php echo $sp['Mo_ta']; ?></textarea>
+        </div>
+        <div class="row mb-3">
+            <label>Cấu hình:</label>
+            <textarea name="Cau_hinh" class="form-control" rows="3"><?php echo $sp['Cau_hinh']; ?></textarea>
         </div>
         <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc muốn cập nhật sản phẩm này?')">Cập nhật sản phẩm</button>
         <a href="index_admin.php?page=list_product" class="btn btn-secondary">Về trang sản phẩm</a>

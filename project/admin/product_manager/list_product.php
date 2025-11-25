@@ -52,14 +52,27 @@ $query_to_show = "
 SELECT 
     sp.*,
     lsp.Ten_loai,
-    ncc.Ten_nha_cung_cap
+    ncc.Ten_nha_cung_cap,
+    ms.Ten_mau,
+    xx.Ten_xuat_xu,
+    bh.Thoi_gian AS Thoi_gian_bao_hanh,
+    bh.Dieu_kien AS Dieu_kien_bao_hanh
 FROM san_pham sp
-LEFT JOIN loai_san_pham lsp ON sp.Ma_loai = lsp.Ma_loai
-LEFT JOIN nha_cung_cap ncc ON sp.Ma_nha_cung_cap = ncc.Ma_nha_cung_cap
+LEFT JOIN loai_san_pham lsp 
+    ON sp.Ma_loai = lsp.Ma_loai
+LEFT JOIN nha_cung_cap ncc 
+    ON sp.Ma_nha_cung_cap = ncc.Ma_nha_cung_cap
+LEFT JOIN mau_sac ms
+    ON sp.Ma_mau = ms.Ma_mau
+LEFT JOIN xuat_xu xx
+    ON sp.Ma_xuat_xu = xx.Ma_xuat_xu
+LEFT JOIN bao_hanh bh
+    ON sp.Ma_bao_hanh = bh.Ma_bao_hanh
 $where_search
 ORDER BY CAST(SUBSTRING(sp.Ma_san_pham, 3) AS UNSIGNED) ASC
 LIMIT $start, $rows_per_page
 ";
+
 $result_to_show = mysqli_query($conn, $query_to_show);
 
 // Lấy tổng số dòng để tính tổng số trang
@@ -107,14 +120,19 @@ $filter_ncc = isset($_GET['filter_ncc']) ? $_GET['filter_ncc'] : '';
             <tr>
                 <th>STT</th>
                 <th>Mã SP</th>
-                <th>Tên SP</th>
+                <th>Tên sản phẩm</th>
                 <th>Mã loại</th>
+                <th>Mã nhà cung cấp</th>
+                <th>Mã màu</th>
+                <th>Mã xuất xứ</th>
+                <th>Mã bảo hành</th>
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
-                <th>Mã NCC</th>
                 <th>Mô tả</th>
-                <th>Ngày thêm</th>
+                <th>Cấu hình</th>
                 <th>Hình ảnh</th>
+                <th>Ngày tạo</th>
+                <th>Trạng thái</th>
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -125,35 +143,80 @@ $filter_ncc = isset($_GET['filter_ncc']) ? $_GET['filter_ncc'] : '';
             ?>
                 <tr>
                     <td><?php echo $i; ?></td>
+
+                    <!-- Mã SP -->
                     <td><?php echo $row['Ma_san_pham']; ?></td>
+
+                    <!-- Tên sản phẩm -->
                     <td><?php echo $row['Ten_san_pham']; ?></td>
-                    <td><?php echo $row['Ma_loai'] . '(' . $row['Ten_loai'] . ')'; ?></td>
+
+                    <!-- Mã loại (kèm tên loại nếu JOIN) -->
+                    <td><?php echo $row['Ma_loai'] . ' (' . $row['Ten_loai'] . ')'; ?></td>
+
+                    <!-- Mã nhà cung cấp -->
+                    <td><?php echo $row['Ma_nha_cung_cap'] . ' (' . $row['Ten_nha_cung_cap'] . ')'; ?></td>
+
+                    <!-- Mã màu -->
+                    <td><?php echo $row['Ma_mau'] . ' (' . $row['Ten_mau'] . ')'; ?></td>
+
+                    <!-- Mã xuất xứ -->
+                    <td><?php echo $row['Ma_xuat_xu'] . ' (' . $row['Ten_xuat_xu'] . ')'; ?></td>
+
+                    <!-- Mã bảo hành -->
+                    <td><?php echo $row['Ma_bao_hanh'] . ' (' . $row['Thoi_gian_bao_hanh'] . ')'; ?></td>
+
+                    <!-- Số lượng -->
                     <td><?php echo $row['So_luong']; ?></td>
+
+                    <!-- Đơn giá -->
                     <td><?php echo number_format($row['Don_gia'], 0); ?> VNĐ</td>
-                    <td><?php echo $row['Ma_nha_cung_cap'] . '(' . $row['Ten_nha_cung_cap'] . ')'; ?></td>
-                    <td class="description">
-                        <?php echo $row['Mo_ta']; ?>
-                    </td>
-                    <td><?php echo $row['Ngay_tao']; ?></td>
+
+                    <!-- Mô tả -->
+                    <td class="description"><?php echo $row['Mo_ta']; ?></td>
+
+                    <!-- Cấu hình -->
+                    <td class="description"><?php echo $row['Cau_hinh']; ?></td>
+
+                    <!-- Hình ảnh -->
                     <td style="text-align:center;">
                         <?php
                         $imagePath = "_images/" . $row['Hinh_anh'];
                         $fullPath = __DIR__ . "/../_images/" . $row['Hinh_anh'];
+
                         if (!empty($row['Hinh_anh']) && file_exists($fullPath)) {
-                            echo '<img src="' . $imagePath . '" alt="Ảnh sản phẩm" style="width:80px;height:80px;object-fit:cover;border-radius:8px;">';
+                            echo '<img src="' . $imagePath . '" alt="Ảnh sản phẩm" 
+                        style="width:80px;height:80px;object-fit:cover;border-radius:8px;">';
                         } else {
                             echo '<span style="color:gray;">Không có ảnh</span>';
                         }
                         ?>
                     </td>
+
+                    <!-- Ngày tạo -->
+                    <td><?php echo $row['Ngay_tao']; ?></td>
+
+                    <!-- Trạng thái -->
+                    <?php if ($row['Trang_thai'] == 1): ?>
+                        <td class="text-success">Đang bán</td>
+                    <?php else: ?>
+                        <td class="text-danger">Ngừng bán</td>
+                    <?php endif; ?>
+
+                    <!-- Hành động -->
                     <td>
-                        <a href="index_admin.php?page=edit_product&id=<?php echo $row['Ma_san_pham']; ?>" class="btn btn-sm btn-warning">Sửa</a>
-                        <a href="index_admin.php?page=list_product&Ma_san_pham=<?php echo $row['Ma_san_pham']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xoá sản phẩm này?')">Xoá</a>
+                        <a href="index_admin.php?page=edit_product&id=<?php echo $row['Ma_san_pham']; ?>"
+                            class="btn btn-sm btn-warning">Sửa</a>
+
+                        <a href="index_admin.php?page=list_product&Ma_san_pham=<?php echo $row['Ma_san_pham']; ?>"
+                            class="btn btn-sm btn-danger"
+                            onclick="return confirm('Bạn có chắc muốn xoá sản phẩm này?')">Xoá</a>
                     </td>
                 </tr>
             <?php
                 $i++;
-            } ?>
+            }
+            ?>
+
         </tbody>
     </table>
 
