@@ -72,6 +72,6 @@ if (isset($_POST['submit'])) {
             </div>
         </div>
         <button type="submit" name="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc muốn cập nhật tài khoản này?')">Cập nhật</button>
-        <a href="index_admin.php?page=list_account" class="btn btn-secondary">Quay lại danh sách</a>
+        <a href="index_admin.php?page=list_account" class="btn btn-secondary">Quay lại danh sách tài khoản</a>
     <?php } ?>
 </form>

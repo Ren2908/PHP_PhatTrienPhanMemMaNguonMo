@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
                 <input type="number" name="Thoi_gian" class="form-control" required value="<?php echo $sp['Thoi_gian'] ?>">
             </div>
             <div class="col-md-12">
-                <label>Thời gian:</label>
+                <label>Điều kiện:</label>
                 <input type="text" name="Dieu_kien" class="form-control" required value="<?php echo $sp['Dieu_kien'] ?>">
             </div>
         </div>

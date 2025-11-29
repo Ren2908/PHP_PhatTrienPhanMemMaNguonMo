@@ -81,15 +81,15 @@ $result_count = mysqli_query($conn, $query_count);
 $total_rows = mysqli_num_rows($result_count);
 $total_pages = ceil($total_rows / $rows_per_page);
 
-// phân loại sản phẩm theo loại và nhà cung cấp
-// Lấy danh sách loại sản phẩm
-$query_loai = "SELECT Ma_loai, Ten_loai FROM loai_san_pham";
-$result_loai = mysqli_query($conn, $query_loai);
+// // phân loại sản phẩm theo loại và nhà cung cấp
+// // Lấy danh sách loại sản phẩm
+// $query_loai = "SELECT Ma_loai, Ten_loai FROM loai_san_pham";
+// $result_loai = mysqli_query($conn, $query_loai);
 
-// Lấy danh sách nhà cung cấp
-$query_ncc = "SELECT Ma_nha_cung_cap, Ten_nha_cung_cap FROM nha_cung_cap";
-$result_ncc = mysqli_query($conn, $query_ncc);
-$filter_ncc = isset($_GET['filter_ncc']) ? $_GET['filter_ncc'] : '';
+// // Lấy danh sách nhà cung cấp
+// $query_ncc = "SELECT Ma_nha_cung_cap, Ten_nha_cung_cap FROM nha_cung_cap";
+// $result_ncc = mysqli_query($conn, $query_ncc);
+// $filter_ncc = isset($_GET['filter_ncc']) ? $_GET['filter_ncc'] : '';
 
 ?>
 
@@ -111,8 +111,6 @@ $filter_ncc = isset($_GET['filter_ncc']) ? $_GET['filter_ncc'] : '';
 
     <a href="index_admin.php?page=add_product" class="btn btn-success">Thêm sản phẩm</a>
 </div>
-
-
 
 <div class="table-responsive">
     <table class="table table-bordered">
