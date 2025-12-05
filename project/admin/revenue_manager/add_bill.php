@@ -175,7 +175,7 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="col-md-4">
                 <label>Số lượng:</label>
-                <input type="number" name="So_luong[]" class="form-control" placeholder="Nhập số lượng" required>
+                <input type="number" min="0" onkeypress="if (event.key === '-' || event.key === '+') event.preventDefault();" name="So_luong[]" class="form-control" placeholder="Nhập số lượng" required>
             </div>
             <div class="col-md-2">
                 <button type="button" class="btn btn-secondary w-100 add_product_btn auto-check">Thêm sản phẩm</button>

@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="col-md-6">
                 <label>Điện thoại:</label>
-                <input type="number" name="Dien_thoai" class="form-control" required value="<?php echo $sp['Dien_thoai'] ?>">
+                <input type="number" min="0" onkeypress="if (event.key === '-' || event.key === '+') event.preventDefault();" name="Dien_thoai" class="form-control" required value="<?php echo $sp['Dien_thoai'] ?>">
             </div>
             <div class="col-md-6">
                 <label>Email:</label>

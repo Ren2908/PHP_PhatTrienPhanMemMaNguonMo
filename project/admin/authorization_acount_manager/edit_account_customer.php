@@ -60,7 +60,6 @@ if (isset($_POST['submit'])) {
                 <label>Quyền:</label>
                 <select name="Ma_quyen" class="form-control" required>
                     <?php
-                    mysqli_data_seek($query_quyen_result, 0); // reset result pointer
                     while ($ncc = mysqli_fetch_assoc($query_quyen_result)):
                         $selected = ($ncc['Ma_quyen'] == $sp['Ma_quyen']) ? 'selected' : '';
                     ?>
